@@ -1,0 +1,49 @@
+﻿@using System.Web.Mvc.Html
+@model ObjectInformation.DAL.Model.Region
+<div id="modifyRegion" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="modal-body" style="margin-bottom:-25px; padding:0px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal ">
+                                <div class="form-body">
+                                    <input type="hidden" name="RegionId" id="RegionId" value="0">
+                                    <br style="clear: both" />
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Наименование</label>
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => Model.RegionName, new {@class = "form-control input-sm", @style = "font-size:12px"})
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label  class="col-md-4 control-label">Регион</label>
+                                        <div class="col-md-7">
+                                            <select id="CountryId" name="CountryId" class="form-control input-large"></select>
+                                            <span class="help-block">Выберите регион</span>
+                                        </div>
+                                    </div>
+
+                                    <br style="clear: both" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Добавить" id="addButton" class="btn btn-primary" onclick="AppRegion.ValidateForm(this); " />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

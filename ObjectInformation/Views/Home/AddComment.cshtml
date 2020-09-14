@@ -1,0 +1,15 @@
+﻿@model ObjectInformation.DAL.Model.Comment
+<li class="media">
+    <a class="pull-left" href="javascript:;">
+        <img class="todo-userpic" src="/Content/assets/admin/layout/img/avatar.png" width="27px" height="27px">
+    </a>
+    <div class="media-body todo-comment">
+        @*<button type="button" class="todo-comment-btn btn btn-circle btn-default btn-xs">&nbsp; Reply &nbsp;</button>*@
+        <p class="todo-comment-head">
+            <span class="todo-comment-username">@Model.UserId</span> &nbsp; <span class="todo-comment-date">@string.Format("{0:yyyy MMMM dd}", Model.CommentDateTime)</span>
+        </p>
+        <p class="todo-text-color">
+            @Model.CommentText <br>
+        </p>
+    </div>
+</li>

@@ -1,0 +1,251 @@
+﻿@using System.Security.Policy
+@using ObjectInformation.DAL.Model
+@model List<ObjectInformation.DAL.Model.ObjectRealty>
+
+@{
+    ViewBag.Title = "Объекты";
+}
+
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Управление</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span style="color:black">Объекты</span>
+        </li>
+    </ul>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+<h1 class="page-title">
+    Объекты
+    <small>список объектов недвиджимости</small>
+</h1>
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+@*<div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-primary" style="margin-top:10px;" href="@Url.Action("AddObject", "ObjectRealty")">Добавить объект</a>
+            <table class="table table-striped table-bordered table-advance table-hover" style="margin-top:20px">
+                <thead>
+                    <tr>
+                        <td style="width: 5%">#</td>
+                        <td>Тип</td>
+                        <td>Название</td>
+                        <td>Площадь</td>
+                        <td>Цена</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr onclick="TranslateToURL('ObjectRealty/AddObject', 'objectRealtyId', @Model[i].ObjectRealtyId)" style="cursor:pointer" class="translatedDataTableRow"
+                            onmouseover="this.style.backgroundColor = '#8a95a5'" onmouseout="this.style.backgroundColor = '#E9EDEF'">
+                            <td>@(i + 1)</td>
+                            <td>@Model[i].ObjectType.ObjectTypeName</td>
+                            <td>@Model[i].Name</td>
+                            <td>@Model[i].Square м<sup>2</sup></td>
+                            <td>@Model[i].Cost</td>
+                            <td><a href="@Url.Action("DeleteObject", "ObjectRealty", new {objectId = Model[i].ObjectRealtyId})" class="btn btn-danger">Удалить</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>*@
+
+
+<hr />
+<a class="btn btn-primary" style="margin-top: 10px;" href="@Url.Action("AddObject", "ObjectRealty")">Добавить объект</a>
+
+<table class="table table-striped table-bordered table-advance table-hover" style="margin-top:20px">
+    <thead>
+        <tr role="row">
+            <th>#</th>
+
+            <th>Тип</th>
+
+            <th>Название</th>
+            <th>Описание</th>
+
+            <th>Цена</th>
+            <th>Дата приобретения</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr class="odd parent">
+                <td>@(i + 1)</td>
+
+                <td>@Model[i].ObjectType.ObjectTypeName</td>
+
+                <td>@Model[i].Name</td>
+                <td>
+                    @Model[i].Description<br/>
+                    <span class="badge badge-default">Адрес:</span>&nbsp
+                    <span style="font-size: 11px">@Model[i].GetFullAddress()</span>
+                </td>
+
+                <td>
+                    @Model[i].Cost <span class="badge badge-default">@Model[i].Currency.Name</span>
+            </td>
+                <td>
+                    @string.Format("{0:dd.MM.yyyy}", Model[i].CostDate)
+                    @if (Model[i].DateOfSale != null && Model[i].DateOfSale != DateTime.MinValue)
+                    {
+                        <span class="badge badge-danger">@string.Format("{0:dd.MM.yyyy}", Model[i].DateOfSale)</span>
+                    }
+                </td>
+            
+
+            <td>
+                <div class="btn-group  btn-group-solid">
+                    <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" style="text-align: left">
+                        <li><a href="/ObjectRealty/AddObject?objectRealtyId=@Model[i].ObjectRealtyId" class="edit-button">Редактировать</a></li>
+                        <li><a onclick="AppCity.DeleteRow('@Model[i].ObjectRealtyId', this) " class="delete-button">Удалить</a></li>
+                    </ul>
+                </div>
+
+
+                @*<a href="@Url.Action("DeleteObject", "ObjectRealty", new {objectId = Model[i].ObjectRealtyId})" class="btn btn-danger">Удалить</a>*@
+            </td>
+        </tr>
+            <tr class="child">
+                <td class="child" colspan="8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul data-dtr-index="4">
+                                @if ((List<ObjectProperty>)ViewBag.ObjectProperty != null)
+                                {
+                                    foreach (var item in ((List<ObjectProperty>)ViewBag.ObjectProperty).Where(w =>  w.ObjectRealtyId == Model[i].ObjectRealtyId))
+                                    {
+                                        <li data-dtr-index="3" data-dt-row="4" data-dt-column="3">
+                                            <span class="badge badge-default dtr-title">@item.Property.Name</span>
+                                                <span class="dtr-data">@item.Value @item.Property.Unit.Name</span>
+</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-inline blog-images">
+                                @foreach (var image in ((List<Upload>) ViewBag.Uploads).Where(w => w.DocumentTypeId == 3 && w.ObjectRealtyId == Model[i].ObjectRealtyId))
+                                {
+                                    <li>
+                                        <a class="fancybox-button" data-rel="fancybox-button" title="@Model[i].Name" href="@image.Path">
+                                            <img alt="" src="@image.Path">
+                                        </a>
+                                    </li>
+                                }
+
+
+                            </ul>
+                            <br style="clear: both"/>
+                            <ul class="list-inline blog-images">
+                                @foreach (var image in ((List<Upload>)ViewBag.Uploads).Where(w => w.DocumentTypeId != 3 && w.ObjectRealtyId == Model[i].ObjectRealtyId))
+                                {
+                                    <li>
+                                        <a class="fancybox-button" data-rel="fancybox-button" title="@Model[i].Name" href="@image.Path"  target="_newTab">
+                                            <img alt="" src="~/assets/global/img/file.png">
+                                        </a>
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+    .translatedDataTableRow {
+        cursor: pointer;
+        -webkit-transition-property: background-color;
+        -webkit-transition-duration: 0.8451s;
+        -webkit-transition-timing-function: ease-out;
+    }
+</style>
+
+@section Scripts {
+    <script src="~/Scripts/Helper.js">
+
+    </script>
+}

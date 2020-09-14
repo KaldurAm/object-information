@@ -1,0 +1,82 @@
+﻿@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using Microsoft.AspNet.Identity
+@using ObjectInformation.DAL.Model
+@using ObjectInformation.Models;
+@model ObjectModel
+
+<!-- #region Comments-->
+
+<div class="tabbable-line">
+    <ul class="nav nav-tabs ">
+        <li class="active">
+            <a href="#tab_2" data-toggle="tab">
+                Документы
+            </a>
+        </li>
+        <li>
+            <a href="#tab_1" data-toggle="tab">
+                Комментарии
+            </a>
+        </li>
+
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" id="tab_1">
+            <!-- TASK COMMENTS -->
+            <div class="form-group">
+                <div class="col-md-12">
+                    <ul class="media-list" id="commentsBlock">
+                        @foreach (Comment comment in Model.Comments)
+                        {
+                            <li class="media">
+                                <a class="pull-left" href="javascript:;">
+                                    <img class="todo-userpic" src="/Content/assets/admin/layout/img/avatar.png" width="27px" height="27px">
+                                </a>
+                                <div class="media-body todo-comment">
+                                    @*<button type="button" class="todo-comment-btn btn btn-circle btn-default btn-xs">&nbsp; Reply &nbsp;</button>*@
+                                    <p class="todo-comment-head">
+                                        <span class="todo-comment-username">@comment.UserId</span> &nbsp; <span class="todo-comment-date">@string.Format("{0:yyyy MMMM dd}", comment.CommentDateTime)</span>
+                                    </p>
+                                    <p class="todo-text-color">
+                                        @comment.CommentText <br>
+                                    </p>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                    @using (Ajax.BeginForm("AddComment", "Home", new AjaxOptions() { UpdateTargetId = "commentsBlock", InsertionMode = InsertionMode.InsertAfter }))
+                    {
+                        <div id="CommentTextArea">
+                            @Html.HiddenFor(f => Model.ObjectRealtyId)
+                            @Html.TextArea("CommentText", new { @style = "width:100%" })
+                        </div>
+                        <button type="submit" style="float:right">Отправить</button>
+                    }
+                </div>
+            </div>
+            <!-- END TASK COMMENTS -->
+        </div>
+        <div class="tab-pane active" id="tab_2">
+            <ul class="todo-task-history">
+                @foreach (var document in Model.Documents)
+                {
+                    <li>
+                        <div class="todo-task-history-desc">
+                            <span class="badge">
+                                @document.DocumentType.DocumentTypeName
+                            </span>
+                            @document.FileName
+                            <a href="@Url.Action("SendFile", "ObjectRealty",new { path = document.Path, fileName = document.FileName})"><i class="fa fa-arrow-down"></i></a>
+                        </div>
+                    </li>
+                }
+            </ul>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+<!-- #endregion -->

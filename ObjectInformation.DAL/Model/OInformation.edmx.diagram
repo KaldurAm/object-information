@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6dc607036d09480e8e178a0f5f5f7d3e" Name="Diagram1">
+        <EntityTypeShape EntityType="ObjectInformationModel.City" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.Comment" Width="1.5" PointX="12" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.Country" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.District" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.DocumentType" Width="1.5" PointX="9.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.ObjectProperty" Width="1.5" PointX="12" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.ObjectRealty" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.ObjectType" Width="1.5" PointX="7.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.Property" Width="1.5" PointX="9.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.Region" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObjectInformationModel.Upload" Width="1.5" PointX="12" PointY="10.25" IsExpanded="true" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_City_dbo_Country_CountryId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_City_dbo_Region_RegionId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_District_dbo_City_CityId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_Comments_dbo_Object_ObjectId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_Region_dbo_Country_CountryId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_Object_dbo_District_DistrictId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_Upload_dbo_DocumentType_DocumentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_ObjectProperty_dbo_Object_ObjectId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_ObjectProperty_dbo_Property_PropertyId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_Object_dbo_ObjectType_ObjectTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObjectInformationModel.FK_dbo_Upload_dbo_Object_ObjectId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

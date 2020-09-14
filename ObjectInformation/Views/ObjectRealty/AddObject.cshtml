@@ -1,0 +1,568 @@
+﻿@using System.Security.Policy
+@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using ObjectInformation.DAL.Model
+@model ObjectInformation.DAL.Model.ObjectRealty
+@{
+    ViewBag.Title = "Добавление объекта";
+    int? isErrorMessage = ViewBag.isErrorMessage;
+    string message = ViewBag.message;
+    Dictionary<List<SelectListItem>, string> ObjectProperties = ViewBag.ObjectProperties as Dictionary<List<SelectListItem>, string>;
+    ObjectInformation.DAL.Model.OInformation db = new ObjectInformation.DAL.Model.OInformation();
+}
+
+
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Объект <small>...</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Объекты</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Объект</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+    </ul>
+
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Действия <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#" onclick="AppCity.GetModalWindowForEditandPopulate(null, this);">Добавить</a>
+                </li>
+                <li>
+                    <a href="#">Импорт в Excel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row" style="margin-top: -30px">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="tabControl" role="tablist" style="margin-top: 20px">
+
+            <li class="nav-item active">
+                <a class="nav-link" id="map-tab" data-toggle="tab" href="#mapTab" role="tab" aria-controls="mapTab" aria-selected="false">Карты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">Основоное</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="props-tab" data-toggle="tab" href="#props" role="tab" aria-controls="props" aria-selected="false">Доп. свойства</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">Фотографии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Документы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pledgers-tab" data-toggle="tab" href="#pledgers" role="tab" aria-controls="pledgers" aria-selected="false">Залог</a>
+            </li>
+        </ul>
+
+        <br style="clear: both" />
+        @using (Html.BeginForm("AddObject", "ObjectRealty", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(h => Model.ObjectRealtyId)
+
+                <!-- Tab panes -->
+            <div class="tab-content">
+
+
+
+                <div class="tab-pane active" id="mapTab" role="tabpanel" aria-labelledby="mapTab-tab">
+
+                    <button class="btn btn-primary" style="margin-bottom: 20px" id="next" type="button">Новый участок</button>
+                    @*<button class="btn btn-primary" id="save-map" style="margin-bottom: 20px" type="button">Сохранить участки</button>*@
+
+                    <div id="map" style="height: 600px">&nbsp;</div>
+                </div>
+
+                <!--Main settings-->
+                <div class="tab-pane " id="main" role="tabpanel" aria-labelledby="main-tab">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-sm-5 col-sm-offset-1">
+
+                            <div class="form-group well">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Название</label>
+                                    <div class="col-md-7">
+                                        @Html.TextBoxFor(f => Model.Name, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(f => Model.Name, "", new {@style = "color:red"})
+                                        <span class="help-block">&nbsp</span>
+                                    </div>
+                                </div>
+
+                                <label class="col-md-4 control-label">Тип объекта</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" id="ObjectTypeId" name="ObjectTypeId"></select>
+                                    <span class="help-block">Укажите тип объекта</span>
+                                </div>
+                                <br style="clear: both" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Стоимость объекта ДКП</label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(f => Model.CostDCT, new { @class = "form-control maskNumber" })
+                                    @Html.ValidationMessageFor(f => Model.CostDCT, "", new { @style = "color:red" })
+                                </div>
+                            </div>
+                            <br style="clear: both" />
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Стоимость объекта</label>
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(f => Model.Cost, new {@class = "form-control maskNumber"})
+                                            @Html.ValidationMessageFor(f => Model.Cost, "", new {@style = "color:red"})
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="form-control" id="CurrencyId" name="CurrencyId"></select>
+                                        </div>
+                                    </div>
+                                    <span class="help-block">Укажите стоимость объекта и валюту на момент покупки</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Курс валюты</label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(f => Model.CurrencyRate, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(f => Model.CurrencyRate, "", new {@style = "color:red"})
+                                    <span class="help-block">Укажите курс валюты на дату приобритения</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Дата приобритения</label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(f => Model.CostDate, new {@class = "form-control date-picker"})
+                                    @Html.ValidationMessageFor(f => Model.CostDate, "", new {@style = "color:red"})
+                                    <span class="help-block">Выберите дату приобретения</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-lg-4 col-sm-5 col-sm-offset-1">
+
+                            <div class="well">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Страна</label>
+                                    <div class="col-md-7">
+                                        <select id="CountryId" name="CountryId" class="form-control"></select>
+                                        <span class="help-block">&nbsp;</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Регион</label>
+                                    <div class="col-md-7">
+                                        <select id="RegionId" name="RegionId" class="form-control" disabled="disabled"></select>
+                                        <span class="help-block">&nbsp;</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Город</label>
+                                    <div class="col-md-7">
+                                        <select id="CityId" name="CityId" class="form-control" disabled="disabled"></select>
+                                        <span class="help-block">&nbsp;</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Район</label>
+                                    <div class="col-md-7">
+                                        <select id="DistrictId" name="DistrictId" class="form-control" disabled="disabled"></select>
+                                        <span class="help-block">&nbsp;</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Район</label>
+                                    <div class="col-md-7">
+                                        @Html.TextAreaFor(f => Model.Address, new { @class = "form-control" })
+                                        <span class="help-block">&nbsp;</span>
+                                    </div>
+                                </div>
+
+
+                                <br style="clear: both" />
+                            </div>
+
+                            <br style="clear: both" />
+                            <div class="note note-warning">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Кадастровый номер</label>
+                                    <div class="col-md-7">
+                                        @Html.TextBoxFor(f => Model.CadastralNumber, new { @class = "form-control"})
+                                        @Html.ValidationMessageFor(f => Model.CadastralNumber, "", new { @style = "color:red" })
+                                        <span class="help-block">Укажите Кадастровый номер</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Площадь объекта</label>
+                                    <div class="col-md-7">
+                                        @Html.TextBoxFor(f => Model.Square, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(f => Model.Square, "", new { @style = "color:red" })
+                                        <span class="help-block">Укажите площадь объекта</span>
+                                    </div>
+                                </div>
+                                <br style="clear: both" />
+                            </div>
+
+                        </div>
+
+                        <br style="clear: both" />
+                        <div class="col-lg-9 col-sm-5 col-sm-offset-1 well">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Описание</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(f => Model.Description, new { @style = "width: 100%; height: 100px; border: 0px!important" })
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Extra properties-->
+                <div class="tab-pane" id="props" role="tabpanel" aria-labelledby="props-tab">
+
+                    <a class="btn btn-primary" style="margin-bottom: 20px" onclick=" AppObjectRealty.ViewObjectProperty(null, this); ">Добавить свойство</a>
+
+                    <table class="table table-bordered table-advance table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th># п.п.</th>
+                                <th>Наименование свойства</th>
+                                <th>Значение</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int porpCount = 1;
+                            }
+                            @foreach (var prop in (List<ObjectProperty>)ViewBag.ObjectPropertiesM)
+                            {
+                            <tr>
+                                <td>@porpCount</td>
+                                <td>@prop.Property.Name</td>
+                                <td>@prop.Value @prop.Property.Unit.Name (@prop.Property.Unit.Description)</td>
+                                <td>
+                                    <div class="btn-group  btn-group-solid">
+                                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" style="text-align: left">
+                                            <li><a onclick=" AppObjectRealty.ViewObjectProperty('@prop.ObjectPropertyId', this) " class="edit-button">Редактировать</a></li>
+                                            <li><a onclick=" AppObjectRealty.DeleteObjectPropertyRow('@prop.ObjectPropertyId', this) " class="delete-button">Удалить</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                                porpCount = porpCount + 1;
+                            }
+                        </tbody>
+                    </table>
+
+
+
+                    @*<div class="props">
+                            @for (int i = 0; i < ObjectProperties.Count; i++)
+                            {
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Свойство</label>
+                                    <div class="col-md-7">
+                                        <select id="CountryId" name="CountryId" class="form-control input-large"></select>
+                                        <span class="help-block">&nbsp;</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group divProperty-@i">
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1">
+                                            <label class="control-label">Свойство</label>
+                                            <input value="0" name="ObjectProperties[@i].ObjectPropertyId" type="hidden">
+                                            @Html.DropDownList("ObjectProperties[" + i + "].PropertyId", ObjectProperties.ElementAt(i).Key, new { @id = "", @class = "form-control input-large", @placeholder = "Выберите тип" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label">Значени свойства</label>
+                                            <input name="ObjectProperties[@i].Value" type="text" value="@ObjectProperties.ElementAt(i).Value" class="form-control">
+                                        </div>
+                                        <div class="col-md-1" style="margin-top: 30px">
+                                            <button type="button" onclick=" DeleteProperty('@string.Format("divProperty-{0}", i)') ">X</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>*@
+
+
+                    <!--Template-->
+                    <div id="divProperty" style="display: none">
+                        <div class="form-group divProperty">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-1">
+                                    <input value="0" name="ObjectProperties[].ObjectPropertyId" type="hidden">
+                                    <label class="control-label">Свойство</label>
+                                    @Html.DropDownList("ObjectProperties[].PropertyId", ViewBag.Properties as List<SelectListItem>, new { @id = "", @class = "form-control input-large", @placeholder = "Выберите тип" })
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Значение свойства</label>
+                                    <input type="text" class="form-control" name="ObjectProperties[].Value">
+                                </div>
+                                <div class="col-md-1" style="margin-top: 30px">
+                                    <button type="button" onclick=" DeleteProperty() ">X</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Object images-->
+                <div class="tab-pane" id="images" role="tabpanel" aria-labelledby="images-tab">
+
+                    <a class="btn btn-primary" style="margin-bottom: 20px" onclick=" AppObjectRealty.ViewObjectImage(null, this); ">Добавить фото</a>
+
+                    <table class="table table-bordered table-advance table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px; text-align: center; vertical-align: middle"># п.п.</th>
+                                <th style="width: 100px; text-align: center; vertical-align: middle"></th>
+                                <th style="width: auto">Описание</th>
+                                <th style="width: 100px; text-align: center; vertical-align: middle"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                porpCount = 1;
+                            }
+                            @foreach (Upload img in ((List<Upload>)ViewBag.ObjectImage).Where(w => w.DocumentTypeId == 3))
+                            {
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle">@porpCount</td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <a href="@img.Path" target="_newTab">
+                                        <img alt="" src="@img.Path" class="media-object" style="width: 54px; height: 54px">
+                                    </a>
+                                </td>
+                                <td style="text-align: left; vertical-align: middle">
+                                    <h4>@img.FileHeader</h4>
+                                    <span class="badge badge-default dtr-title">@string.Format("{0:dd.mm.yyyy}", img.CreateDate)</span>
+                                    <p style="font-size: 11px"> @img.FileDescription</p>
+                                </td>
+                                <td style="text-align: right; vertical-align: middle">
+                                    <div class="btn-group  btn-group-solid">
+                                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" style="text-align: left">
+                                            <li><a onclick=" AppObjectRealty.ViewObjectImage('@img.UploadId', this) " class="edit-button">Редактировать</a></li>
+                                            <li><a onclick=" AppObjectRealty.DeleteObjectImageRow('@img.UploadId', this) " class="delete-button">Удалить</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                                porpCount = porpCount + 1;
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--Object documents-->
+                <div class="tab-pane" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                    <a class="btn btn-primary" style="margin-bottom: 20px" onclick=" AppObjectRealty.ViewObjectDocument(null, this); ">Добавить документ</a>
+
+                    <table class="table table-bordered table-advance table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px; text-align: center; vertical-align: middle"># п.п.</th>
+                                <th style="width: 100px; text-align: center; vertical-align: middle"></th>
+                                <th style="width: auto">Описание</th>
+                                <th style="width: 100px; text-align: center; vertical-align: middle"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                porpCount = 1;
+                            }
+                            @foreach (Upload img in ((List<Upload>)ViewBag.ObjectImage).Where(w => w.DocumentTypeId != 3))
+                            {
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle">@porpCount</td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <img alt="" src="~/content/assets/global/img/file.png" class="media-object" style="width: 54px; height: 54px">
+                                </td>
+                                <td style="text-align: left; vertical-align: middle">
+                                    <h4>@img.FileHeader</h4>
+                                    @img.FileDescription
+                                </td>
+                                <td style="text-align: right; vertical-align: middle">
+                                    <div class="btn-group  btn-group-solid">
+                                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" style="text-align: left">
+                                            <li><a onclick=" AppObjectRealty.ViewObjectDocument('@img.UploadId', this) " class="edit-button">Редактировать</a></li>
+                                            <li><a onclick=" AppObjectRealty.DeleteObjectDocumentRow('@img.UploadId', this) " class="delete-button">Удалить</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                                porpCount = porpCount + 1;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="pledgers" role="tabpanel" aria-labelledby="pledgers-tab">
+
+                    <a class="btn btn-primary" style="margin-bottom: 20px" onclick="AppObjectRealty.ViewObjectPledgers(null, this); ">Добавить Залог</a>
+
+                    @foreach (ObjectRealtyPledgers pledgers in (List<ObjectRealtyPledgers>)ViewBag.ObjectRealtyPledgers)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="news-blocks">
+                                    <h3>
+                                        <a href="page_news_item.html">
+                                            @pledgers.Pledgers.NameOfPledger
+                                        </a>
+                                    </h3>
+                                    <div class="news-block-tags">
+                                        <strong>@pledgers.Pledgers.ControllingShareholder</strong>
+                                        <em>@pledgers.CreateDate</em>
+                                        <br/>
+                                        <a href="" style="padding: 20px 10px 10px 0px">Добавить документ</a>
+                                    </div>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    1
+                                                </td>
+                                                <td>
+                                                    Залоговоая стоимость
+                                                </td>
+                                                <td>
+                                                    @pledgers.MortgageValue
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2
+                                                </td>
+                                                <td>
+                                                    Оценачная стоимость
+                                                </td>
+                                                <td>
+                                                    @pledgers.AssessedValue
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-0 col-md-9">
+                            <button type="submit" class="btn green"><i class="fa fa-check"></i> !Сохранить</button>
+                            <button type="button" class="btn default">Отмена</button>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="final">
+                        <button type="submit" class="btn btn-success col-md-offset-1">Сохранить</button>
+                    </div>*@
+            </div>
+                                }
+
+
+        @Html.Partial("ObjectRealty/_addPropertyObjectRealty")
+        @Html.Partial("ObjectRealty/_addImageObjectRealty")
+        @Html.Partial("ObjectRealty/_addDocumentObjectRealty")
+        @Html.Partial("ObjectRealty/_addPolygonObjectRealty")
+        @Html.Partial("ObjectRealty/_addObjectRealtyPledgers")
+    </div>
+</div>
+
+
+
+@section styles
+{
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">*@
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+}
+
+@{
+    Uri myUri = new Uri(Request.Url.ToString());
+    string tab = HttpUtility.ParseQueryString(myUri.Query).Get("tab");
+}
+
+
+@section Scripts
+{
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQGepjcajymP5Wm0iY1cyJTJBVVx5_fZ8&libraries=geometry"></script>
+
+    <script src="../../assets/plugins/AppObjectRealty.js?v=@DateTime.Now.Ticks"></script>
+
+    <script>
+        var myCenter = new google.maps.LatLng('@Model.lat', '@Model.lng');
+
+        $(document).ready(function () {
+            AppObjectRealty.init('@tab', '@Model.ObjectRealtyId');
+            AppObjectRealty.initMap('@Model.zoom', $("#ObjectRealtyId").val());
+            AppObjectRealty.EventLocation('@Model.CountryId', '@Model.RegionId', '@Model.CityId', '@Model.DistrictId', '@Model.ObjectTypeId', '@Model.CurrencyId');
+        });
+    </script>
+}

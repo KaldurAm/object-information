@@ -1,0 +1,58 @@
+﻿@using System.Web.Mvc.Ajax
+@using ObjectInformation.DAL.Model
+@model IEnumerable<ObjectRealty>
+
+<div class="todo-tasklist">
+
+    @foreach (ObjectRealty objectRealty in Model)
+    {
+        <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#updateDiv" href="/Home/PartialComments?objectRealtyId=@objectRealty.ObjectRealtyId" style="text-decoration: none">
+            <div class="todo-tasklist-item todo-tasklist-item-border-green">
+                <img class="todo-userpic pull-left" src="@objectRealty.Uploads.Select(s => s.Path).FirstOrDefault()" width="27px" height="27px">
+                <div class="todo-tasklist-item-title">
+                    @objectRealty.Name
+                </div>
+                <div class="todo-tasklist-item-text">
+                    @objectRealty.Description
+                </div>
+                <div class="todo-tasklist-controls pull-left">
+                    <span class="todo-tasklist-date"><i class="fa fa-calendar"></i> @string.Format("{0:yyyy MMMM dd}", objectRealty.CreateDate)</span>
+                    <span class="todo-tasklist-badge badge badge-roundless">@objectRealty.CreateUser</span>
+                </div>
+            </div>
+        </a>
+        <br/>
+
+            @*<div class="todo-tasklist-item todo-tasklist-item-border-blue @objectRealty.ObjectRealtyId" onclick=" myfunction(@objectRealty.ObjectRealtyId) ">
+
+                    <div class="row">
+                         <div class="col-md-3">
+                             <img class="todo-userpic pull-left" src="@objectRealty.Uploads.Select(s => s.Path).FirstOrDefault()" width="100" height="100">
+                         </div>
+                         <div class="col-md-9">
+                             Цена: @objectRealty.Cost<br />
+                             @foreach (ObjectProperty objectProperty in objectRealty.ObjectProperties)
+                         {
+                                 <div class="todo-tasklist-controls pull-left">
+                                     <span class="todo-tasklist-badge badge badge-roundless">@objectProperty.Property.Name</span>
+                                     <span class="todo-tasklist-date">@objectProperty.Value</span>
+                                 </div>
+                                 <br style="clear: both" />
+                             }
+                         </div>
+                     </div>
+
+
+                    <br style="clear: both" />
+                    <div class="todo-tasklist-item-text">
+                        @objectRealty.Description
+                    </div>
+
+
+
+
+                    @Ajax.ActionLink("qweqwe", "PartialComments", new { objectRealtyId = objectRealty.ObjectRealtyId }, new AjaxOptions() { UpdateTargetId = "updateDiv" }, new { @style = "display: ", @id = "upComment" })
+                </div>*@
+
+    }
+</div>

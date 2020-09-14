@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ObjectInformationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="RegionId" Type="int" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommentText" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ObjectId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SendTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="DistrictId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="DocumentTypeId" />
+          </Key>
+          <Property Name="DocumentTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentTypeName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ObjectProperty">
+          <Key>
+            <PropertyRef Name="ObjectPropertyId" />
+          </Key>
+          <Property Name="ObjectPropertyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ObjectId" Type="int" Nullable="false" />
+          <Property Name="PropertyId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ObjectRealty">
+          <Key>
+            <PropertyRef Name="ObjectId" />
+          </Key>
+          <Property Name="ObjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ObjectTypeId" Type="int" Nullable="false" />
+          <Property Name="DistrictId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Cost" Type="float" Nullable="false" />
+          <Property Name="Square" Type="float" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="ObjectType">
+          <Key>
+            <PropertyRef Name="ObjectTypeId" />
+          </Key>
+          <Property Name="ObjectTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ObjectTypeName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="PropertyId" />
+          </Key>
+          <Property Name="PropertyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
+        </EntityType>
+        <EntityType Name="Upload">
+          <Key>
+            <PropertyRef Name="UploadId" />
+          </Key>
+          <Property Name="UploadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="int" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ObjectId" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_dbo_City_dbo_Country_CountryId">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_City_dbo_Region_RegionId">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Comments_dbo_Object_ObjectId">
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectRealty">
+              <PropertyRef Name="ObjectId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="ObjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_District_dbo_City_CityId">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="District" Type="Self.District" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="District">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Object_dbo_District_DistrictId">
+          <End Role="District" Type="Self.District" Multiplicity="1" />
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ObjectRealty">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Object_dbo_ObjectType_ObjectTypeId">
+          <End Role="ObjectType" Type="Self.ObjectType" Multiplicity="1" />
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectType">
+              <PropertyRef Name="ObjectTypeId" />
+            </Principal>
+            <Dependent Role="ObjectRealty">
+              <PropertyRef Name="ObjectTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjectProperty_dbo_Object_ObjectId">
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="1" />
+          <End Role="ObjectProperty" Type="Self.ObjectProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectRealty">
+              <PropertyRef Name="ObjectId" />
+            </Principal>
+            <Dependent Role="ObjectProperty">
+              <PropertyRef Name="ObjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjectProperty_dbo_Property_PropertyId">
+          <End Role="Property" Type="Self.Property" Multiplicity="1" />
+          <End Role="ObjectProperty" Type="Self.ObjectProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="PropertyId" />
+            </Principal>
+            <Dependent Role="ObjectProperty">
+              <PropertyRef Name="PropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjectRealty_dbo_District_DistrictId">
+          <End Role="District" Type="Self.District" Multiplicity="1" />
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ObjectRealty">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjectRealty_dbo_ObjectType_ObjectTypeId">
+          <End Role="ObjectType" Type="Self.ObjectType" Multiplicity="1" />
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectType">
+              <PropertyRef Name="ObjectTypeId" />
+            </Principal>
+            <Dependent Role="ObjectRealty">
+              <PropertyRef Name="ObjectTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Region_dbo_Country_CountryId">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Upload_dbo_DocumentType_DocumentTypeId">
+          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Upload" Type="Self.Upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="DocumentTypeId" />
+            </Principal>
+            <Dependent Role="Upload">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Upload_dbo_Object_ObjectId">
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Upload" Type="Self.Upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectRealty">
+              <PropertyRef Name="ObjectId" />
+            </Principal>
+            <Dependent Role="Upload">
+              <PropertyRef Name="ObjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ObjectInformationModelStoreContainer">
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObjectProperty" EntityType="Self.ObjectProperty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObjectRealty" EntityType="Self.ObjectRealty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObjectType" EntityType="Self.ObjectType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Upload" EntityType="Self.Upload" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_City_dbo_Country_CountryId" Association="Self.FK_dbo_City_dbo_Country_CountryId">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_City_dbo_Region_RegionId" Association="Self.FK_dbo_City_dbo_Region_RegionId">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Comments_dbo_Object_ObjectId" Association="Self.FK_dbo_Comments_dbo_Object_ObjectId">
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_District_dbo_City_CityId" Association="Self.FK_dbo_District_dbo_City_CityId">
+            <End Role="City" EntitySet="City" />
+            <End Role="District" EntitySet="District" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Object_dbo_District_DistrictId" Association="Self.FK_dbo_Object_dbo_District_DistrictId">
+            <End Role="District" EntitySet="District" />
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Object_dbo_ObjectType_ObjectTypeId" Association="Self.FK_dbo_Object_dbo_ObjectType_ObjectTypeId">
+            <End Role="ObjectType" EntitySet="ObjectType" />
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjectProperty_dbo_Object_ObjectId" Association="Self.FK_dbo_ObjectProperty_dbo_Object_ObjectId">
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+            <End Role="ObjectProperty" EntitySet="ObjectProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjectProperty_dbo_Property_PropertyId" Association="Self.FK_dbo_ObjectProperty_dbo_Property_PropertyId">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="ObjectProperty" EntitySet="ObjectProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjectRealty_dbo_District_DistrictId" Association="Self.FK_dbo_ObjectRealty_dbo_District_DistrictId">
+            <End Role="District" EntitySet="District" />
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjectRealty_dbo_ObjectType_ObjectTypeId" Association="Self.FK_dbo_ObjectRealty_dbo_ObjectType_ObjectTypeId">
+            <End Role="ObjectType" EntitySet="ObjectType" />
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Region_dbo_Country_CountryId" Association="Self.FK_dbo_Region_dbo_Country_CountryId">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Upload_dbo_DocumentType_DocumentTypeId" Association="Self.FK_dbo_Upload_dbo_DocumentType_DocumentTypeId">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="Upload" EntitySet="Upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Upload_dbo_Object_ObjectId" Association="Self.FK_dbo_Upload_dbo_Object_ObjectId">
+            <End Role="ObjectRealty" EntitySet="ObjectRealty" />
+            <End Role="Upload" EntitySet="Upload" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ObjectInformationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_dbo_City_dbo_Country_CountryId" FromRole="City" ToRole="Country" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_dbo_City_dbo_Region_RegionId" FromRole="City" ToRole="Region" />
+          <NavigationProperty Name="Districts" Relationship="Self.FK_dbo_District_dbo_City_CityId" FromRole="City" ToRole="District" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommentText" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ObjectId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SendTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ObjectRealty" Relationship="Self.FK_dbo_Comments_dbo_Object_ObjectId" FromRole="Comments" ToRole="ObjectRealty" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_dbo_City_dbo_Country_CountryId" FromRole="Country" ToRole="City" />
+          <NavigationProperty Name="Regions" Relationship="Self.FK_dbo_Region_dbo_Country_CountryId" FromRole="Country" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="DistrictId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK_dbo_District_dbo_City_CityId" FromRole="District" ToRole="City" />
+          <NavigationProperty Name="ObjectRealties" Relationship="Self.FK_dbo_Object_dbo_District_DistrictId" FromRole="District" ToRole="ObjectRealty" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="DocumentTypeId" />
+          </Key>
+          <Property Name="DocumentTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Uploads" Relationship="Self.FK_dbo_Upload_dbo_DocumentType_DocumentTypeId" FromRole="DocumentType" ToRole="Upload" />
+        </EntityType>
+        <EntityType Name="ObjectProperty">
+          <Key>
+            <PropertyRef Name="ObjectPropertyId" />
+          </Key>
+          <Property Name="ObjectPropertyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObjectId" Type="Int32" Nullable="false" />
+          <Property Name="PropertyId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ObjectRealty" Relationship="Self.FK_dbo_ObjectProperty_dbo_Object_ObjectId" FromRole="ObjectProperty" ToRole="ObjectRealty" />
+          <NavigationProperty Name="Property" Relationship="Self.FK_dbo_ObjectProperty_dbo_Property_PropertyId" FromRole="ObjectProperty" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="ObjectRealty">
+          <Key>
+            <PropertyRef Name="ObjectId" />
+          </Key>
+          <Property Name="ObjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObjectTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DistrictId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Double" Nullable="false" />
+          <Property Name="Square" Type="Double" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_dbo_Comments_dbo_Object_ObjectId" FromRole="ObjectRealty" ToRole="Comments" />
+          <NavigationProperty Name="District" Relationship="Self.FK_dbo_Object_dbo_District_DistrictId" FromRole="ObjectRealty" ToRole="District" />
+          <NavigationProperty Name="ObjectProperties" Relationship="Self.FK_dbo_ObjectProperty_dbo_Object_ObjectId" FromRole="ObjectRealty" ToRole="ObjectProperty" />
+          <NavigationProperty Name="ObjectType" Relationship="Self.FK_dbo_Object_dbo_ObjectType_ObjectTypeId" FromRole="ObjectRealty" ToRole="ObjectType" />
+          <NavigationProperty Name="Uploads" Relationship="Self.FK_dbo_Upload_dbo_Object_ObjectId" FromRole="ObjectRealty" ToRole="Upload" />
+        </EntityType>
+        <EntityType Name="ObjectType">
+          <Key>
+            <PropertyRef Name="ObjectTypeId" />
+          </Key>
+          <Property Name="ObjectTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObjectTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ObjectRealties" Relationship="Self.FK_dbo_Object_dbo_ObjectType_ObjectTypeId" FromRole="ObjectType" ToRole="ObjectRealty" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="PropertyId" />
+          </Key>
+          <Property Name="PropertyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ObjectProperties" Relationship="Self.FK_dbo_ObjectProperty_dbo_Property_PropertyId" FromRole="Property" ToRole="ObjectProperty" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_dbo_City_dbo_Region_RegionId" FromRole="Region" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_dbo_Region_dbo_Country_CountryId" FromRole="Region" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Upload">
+          <Key>
+            <PropertyRef Name="UploadId" />
+          </Key>
+          <Property Name="UploadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ObjectId" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DocumentType" Relationship="Self.FK_dbo_Upload_dbo_DocumentType_DocumentTypeId" FromRole="Upload" ToRole="DocumentType" />
+          <NavigationProperty Name="ObjectRealty" Relationship="Self.FK_dbo_Upload_dbo_Object_ObjectId" FromRole="Upload" ToRole="ObjectRealty" />
+        </EntityType>
+        <Association Name="FK_dbo_City_dbo_Country_CountryId">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_City_dbo_Region_RegionId">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_District_dbo_City_CityId">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="District" Type="Self.District" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="District">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Comments_dbo_Object_ObjectId">
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectRealty">
+              <PropertyRef Name="ObjectId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="ObjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Region_dbo_Country_CountryId">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Object_dbo_District_DistrictId">
+          <End Role="District" Type="Self.District" Multiplicity="1" />
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ObjectRealty">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Upload_dbo_DocumentType_DocumentTypeId">
+          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Upload" Type="Self.Upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="DocumentTypeId" />
+            </Principal>
+            <Dependent Role="Upload">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjectProperty_dbo_Object_ObjectId">
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="1" />
+          <End Role="ObjectProperty" Type="Self.ObjectProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectRealty">
+              <PropertyRef Name="ObjectId" />
+            </Principal>
+            <Dependent Role="ObjectProperty">
+              <PropertyRef Name="ObjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjectProperty_dbo_Property_PropertyId">
+          <End Role="Property" Type="Self.Property" Multiplicity="1" />
+          <End Role="ObjectProperty" Type="Self.ObjectProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="PropertyId" />
+            </Principal>
+            <Dependent Role="ObjectProperty">
+              <PropertyRef Name="PropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Object_dbo_ObjectType_ObjectTypeId">
+          <End Role="ObjectType" Type="Self.ObjectType" Multiplicity="1" />
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectType">
+              <PropertyRef Name="ObjectTypeId" />
+            </Principal>
+            <Dependent Role="ObjectRealty">
+              <PropertyRef Name="ObjectTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Upload_dbo_Object_ObjectId">
+          <End Role="ObjectRealty" Type="Self.ObjectRealty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Upload" Type="Self.Upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectRealty">
+              <PropertyRef Name="ObjectId" />
+            </Principal>
+            <Dependent Role="Upload">
+              <PropertyRef Name="ObjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ObjectInformationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Districts" EntityType="Self.District" />
+          <EntitySet Name="DocumentTypes" EntityType="Self.DocumentType" />
+          <EntitySet Name="ObjectProperties" EntityType="Self.ObjectProperty" />
+          <EntitySet Name="ObjectRealties" EntityType="Self.ObjectRealty" />
+          <EntitySet Name="ObjectTypes" EntityType="Self.ObjectType" />
+          <EntitySet Name="Properties" EntityType="Self.Property" />
+          <EntitySet Name="Regions" EntityType="Self.Region" />
+          <EntitySet Name="Uploads" EntityType="Self.Upload" />
+          <AssociationSet Name="FK_dbo_City_dbo_Country_CountryId" Association="Self.FK_dbo_City_dbo_Country_CountryId">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_City_dbo_Region_RegionId" Association="Self.FK_dbo_City_dbo_Region_RegionId">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_District_dbo_City_CityId" Association="Self.FK_dbo_District_dbo_City_CityId">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="District" EntitySet="Districts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Comments_dbo_Object_ObjectId" Association="Self.FK_dbo_Comments_dbo_Object_ObjectId">
+            <End Role="ObjectRealty" EntitySet="ObjectRealties" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Region_dbo_Country_CountryId" Association="Self.FK_dbo_Region_dbo_Country_CountryId">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Object_dbo_District_DistrictId" Association="Self.FK_dbo_Object_dbo_District_DistrictId">
+            <End Role="District" EntitySet="Districts" />
+            <End Role="ObjectRealty" EntitySet="ObjectRealties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Upload_dbo_DocumentType_DocumentTypeId" Association="Self.FK_dbo_Upload_dbo_DocumentType_DocumentTypeId">
+            <End Role="DocumentType" EntitySet="DocumentTypes" />
+            <End Role="Upload" EntitySet="Uploads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjectProperty_dbo_Object_ObjectId" Association="Self.FK_dbo_ObjectProperty_dbo_Object_ObjectId">
+            <End Role="ObjectRealty" EntitySet="ObjectRealties" />
+            <End Role="ObjectProperty" EntitySet="ObjectProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjectProperty_dbo_Property_PropertyId" Association="Self.FK_dbo_ObjectProperty_dbo_Property_PropertyId">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="ObjectProperty" EntitySet="ObjectProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Object_dbo_ObjectType_ObjectTypeId" Association="Self.FK_dbo_Object_dbo_ObjectType_ObjectTypeId">
+            <End Role="ObjectType" EntitySet="ObjectTypes" />
+            <End Role="ObjectRealty" EntitySet="ObjectRealties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Upload_dbo_Object_ObjectId" Association="Self.FK_dbo_Upload_dbo_Object_ObjectId">
+            <End Role="ObjectRealty" EntitySet="ObjectRealties" />
+            <End Role="Upload" EntitySet="Uploads" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ObjectInformationModelStoreContainer" CdmEntityContainer="ObjectInformationEntities">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="ObjectInformationModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="ObjectInformationModel.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="ObjectInformationModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="ObjectInformationModel.District">
+              <MappingFragment StoreEntitySet="District">
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentTypes">
+            <EntityTypeMapping TypeName="ObjectInformationModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="DocumentTypeName" ColumnName="DocumentTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjectProperties">
+            <EntityTypeMapping TypeName="ObjectInformationModel.ObjectProperty">
+              <MappingFragment StoreEntitySet="ObjectProperty">
+                <ScalarProperty Name="ObjectPropertyId" ColumnName="ObjectPropertyId" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjectRealties">
+            <EntityTypeMapping TypeName="ObjectInformationModel.ObjectRealty">
+              <MappingFragment StoreEntitySet="ObjectRealty">
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Square" ColumnName="Square" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjectTypes">
+            <EntityTypeMapping TypeName="ObjectInformationModel.ObjectType">
+              <MappingFragment StoreEntitySet="ObjectType">
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="ObjectTypeName" ColumnName="ObjectTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="ObjectInformationModel.Property">
+              <MappingFragment StoreEntitySet="Property">
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="ObjectInformationModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uploads">
+            <EntityTypeMapping TypeName="ObjectInformationModel.Upload">
+              <MappingFragment StoreEntitySet="Upload">
+                <ScalarProperty Name="UploadId" ColumnName="UploadId" />
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

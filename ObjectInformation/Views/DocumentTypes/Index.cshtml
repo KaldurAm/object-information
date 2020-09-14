@@ -1,0 +1,124 @@
+﻿@using ObjectInformation.DAL.Model
+@model IEnumerable<DocumentType>
+
+@{
+    ViewBag.Title = "Типы документов";
+    int? isErrorMessage = ViewBag.isErrorMessage;
+    string message = ViewBag.Message;
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.Action("Index","Home")">Главная</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Типы документов</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+    </ul>
+
+</div>
+
+<br style="clear: both" />
+@switch (isErrorMessage)
+{
+    case 0:
+        {
+            <div class="alert alert-success alert-dismissible fade in" id="MyAllert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span>@message</span>
+                <br style="clear: both" />
+                <div class="badge badge-danger" style="height: 25px;padding: 5px">
+                    <span id="CountDownTimer" style="font-size: 14px"></span>
+                </div>
+            </div>
+            break;
+        }
+    case 1:
+        {
+            <div class="alert alert-danger alert-dismissible fade in" id="MyAllert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                @message
+                <br />
+                <div class="badge badge-danger" style="padding: 5px; height: 25px;">
+                    <span id="CountDownTimer" style="font-size: 14px"></span>
+                </div>
+            </div>
+            break;
+        }
+    case 2:
+        {
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span>@message</span>
+            </div>
+            break;
+        }
+}
+<h2>@ViewBag.Title</h2>
+<p>
+    @Html.ActionLink("Создать новый тип документа", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div>
+    <table class="table table-bordered table-advance table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Наименование типа документа
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (DocumentType item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentTypeName)
+                </td>
+                <td class="btn-toolbar">
+                    @Html.ActionLink("Изменить", "Edit", new { id = item.DocumentTypeId }, new { @class = "btn btn-primary" })
+
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.DocumentTypeId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+        });
+        function GetData(countryId, countryName) {
+            $("#CountryId").val(countryId);
+            $("#CountryName").val(countryName);
+
+        }
+        $("#MyAllert").fadeIn(function () {
+            var t = new Date();
+            t.setSeconds(t.getSeconds() + 7);
+            var countDownDate = new Date();
+            countDownDate.setSeconds(countDownDate.getSeconds() + 7);
+            var x = setInterval(function () {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("CountDownTimer").innerHTML = "Этот блок исчезнет через :" + seconds + "s";
+                if (distance <= 0) {
+                    clearInterval(x);
+                    $("#MyAllert").alert('close');
+                }
+            }, 700);
+            $("#MyAllert").on('closed.bs.alert',
+                function () {
+                    console.log("Block was closed");
+                    clearInterval(x);
+                });
+        });
+    </script>
+}

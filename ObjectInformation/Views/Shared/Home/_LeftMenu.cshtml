@@ -1,0 +1,66 @@
+﻿@using System.Web.Mvc.Html
+
+@{
+    ViewBag.Title = "_LeftMenu";
+}
+
+
+
+<li class="star">
+    <a href="/ObjectRealty/Index">
+        <i class="icon-settings"></i>
+        <span class="title"> Главная</span>
+    </a>
+</li>
+<li class="tooltips">
+    <a href="/ObjectRealty/Index">
+        <i class="icon-home"></i>
+        <span class="title">
+            Проекты
+        </span>
+    </a>
+</li>
+<li class="star" id="Menu">
+    <a href="javascript:;">
+        <i class="icon-settings"></i>
+        <span class="title">Справочники</span>
+        <span class="selected"></span>
+    </a>
+    <ul class="sub-menu">
+        <li>
+            @Html.ActionLink("Страны", "Country", "Country", null, new { @id = "CountriesIndex" })
+        </li>
+        <li>
+            @Html.ActionLink("Регионы", "Region", "Region", null, new { @id = "RegionsIndex" })
+        </li>
+        <li>
+            @Html.ActionLink("Города", "City", "City", null, new { @id = "CitiesIndex" })
+        </li>
+        <li>
+            @Html.ActionLink("Районы", "Index", "District", null, new {@id = "DistrictIndex"})
+        </li>
+        <li class="heading">
+            <h3 class="uppercase">Для объектов</h3>
+        </li>
+        <li>
+            @Html.ActionLink("Типы объектов", "ObjectType", "ObjectRealty", null, new { @id = "ObjectTypesIndex" })
+        </li>
+        <li>
+            @Html.ActionLink("Свойства объектов", "Property", "ObjectRealty", null, new {@id = "PropertyIndex"})
+        </li>
+        <li>
+            @Html.ActionLink("Залогодатели", "Index", "Pledgers", null, new { @id = "ObjectTypesIndex" })
+        </li>
+    </ul>
+
+<li class="star">
+
+
+    @*<li class="tooltips">
+            <a href="/ObjectRealty/Index" >
+                <i class="icon-paper-plane"></i>
+                <span class="title">
+                    Объекты
+                </span>
+            </a>
+        </li>*@

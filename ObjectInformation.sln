@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectInformation", "ObjectInformation\ObjectInformation.csproj", "{68B17962-9004-4FAC-839B-7D73BE349DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectInformation.DAL", "ObjectInformation.DAL\ObjectInformation.DAL.csproj", "{881EFABC-788A-42CF-B79D-112121288AA3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68B17962-9004-4FAC-839B-7D73BE349DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B17962-9004-4FAC-839B-7D73BE349DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B17962-9004-4FAC-839B-7D73BE349DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B17962-9004-4FAC-839B-7D73BE349DC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881EFABC-788A-42CF-B79D-112121288AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881EFABC-788A-42CF-B79D-112121288AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881EFABC-788A-42CF-B79D-112121288AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881EFABC-788A-42CF-B79D-112121288AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54D9A887-5F81-476C-B33A-FA1808272998}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://kazobjectinformation.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ObjectInformation\\ObjectInformation.csproj
+		SccProjectName1 = ObjectInformation
+		SccLocalPath1 = ObjectInformation
+		SccProjectUniqueName2 = ObjectInformation.DAL\\ObjectInformation.DAL.csproj
+		SccProjectName2 = ObjectInformation.DAL
+		SccLocalPath2 = ObjectInformation.DAL
+	EndGlobalSection
+EndGlobal

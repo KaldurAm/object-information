@@ -1,0 +1,82 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using ObjectInformation.DAL.Model
+@model Property
+@{
+    ViewBag.Title = "Свойства объектов";
+
+    int? isErrorMessage = ViewBag.isErrorMessage;
+    string message = ViewBag.message;
+    List<Property> properties = (List<Property>)ViewBag.Properties;
+}
+
+
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Свойства объектов <small>...</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Управление</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span style="color: black">Свойства объектов</span>
+        </li>
+    </ul>
+
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Действия <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#" onclick="AppProperty.GetModalWindowForEditandPopulate(null, this);">Добавить</a>
+                </li>
+                <li>
+                    <a href="#">Импорт в Excel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+
+        <table class="table table-bordered table-advance table-hover table-striped" id="tableProperties">
+            <thead>
+                <tr>
+                    <th>Номер</th>
+                    <th>Наименование</th>
+                    <th>Ед.измеренеия</th>
+                    <th>Типы объектов</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+
+        @Html.Partial("Property/_modifyProperty")
+
+    </div>
+</div>
+
+@section Scripts
+{
+<script src="../../Content/assets/plugins/AppProperty.js"></script>
+
+<script>
+        $(document).ready(function () {
+            AppProperty.init();
+        });
+</script>
+}

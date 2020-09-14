@@ -1,0 +1,8 @@
+https://itvdn.com/ru/video/wpf
+
+
+6461 Visual Studio 2008: Windows Communication Foundation
+6460 Visual Studio 2008: Windows Presentation Foundation
+6462 Visual Studio 2008: Windows Workflow Foundation
+
+10262 Developing Windows® Applications with Microsoft® Visual Studio® 2010

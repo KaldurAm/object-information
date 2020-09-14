@@ -1,0 +1,49 @@
+﻿@using System.Web.Mvc.Html
+<div id="modifyObjectPolygon" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="modal-body" style="margin-bottom:-25px; padding:0px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal ">
+                                <div class="form-body">
+
+                                    <input type="hidden" name="PolygonId" id="PolygonId" value="0"/>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Наименование</label>
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control" id="PolygonName" name="PolygonName"/>
+                                            <span class="help-block">Введите наименование выбранного участка</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Описание</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" id="PolygonDescription" name="PolygonDescription"></textarea>
+                                            <span class="help-block">Введите выбранного объекта</span>
+                                        </div>
+                                    </div>
+                                
+                                    <br style="clear: both" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                   
+                    <input type="button" value="Добавить" id="save-polygon" class="btn btn-primary"/>
+                    <input type="button" value="Удалить" id="delete-polygon" class="btn btn-red"/>
+                    <button type="button" class="btn default" data-dismiss="modal">Отмена</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

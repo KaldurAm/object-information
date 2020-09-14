@@ -1,0 +1,101 @@
+﻿@using ObjectInformation.DAL.Model
+<div class="todo-sidebar">
+    <div class="portlet light">
+        @foreach (Country country in Model)
+        {
+            if (country.Regions.Any(a => a.Cities.Any(s => s.Districts.Any(s1 => s1.ObjectRealties.Any()))))
+            {
+                <div class="portlet-title" style="cursor: pointer">
+                    <div class="caption" data-toggle="collapse" data-target="#Country_@country.CountryId">
+                        <span class="caption-subject font-green-sharp bold uppercase">@country.CountryName </span>
+                    </div>
+                </div>
+                        <div class="portlet-body">
+                            <div id="Country_@country.CountryId" class="collapse">
+                                <ul class="nav nav-pills nav-stacked">
+                                    @foreach (Region region in country.Regions)
+                                    {
+                                        <li style="cursor: pointer">
+                                            <div class="portlet-title">
+                                                <div class="caption" data-toggle="collapse" data-target="#Region_@region.RegionId">
+                                                    <span class="caption-subject font-green-sharp bold uppercase">@region.RegionName </span>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div id="Region_@region.RegionId" class="collapse">
+                                                        <ul class="nav nav-pills nav-stacked">
+                                                            @foreach (City city in region.Cities)
+                                                            {
+                                                                if (city.Districts.Any())
+                                                                {
+                                                                    <li style="margin-left: 5px; cursor: pointer;">
+                                                                        <div class="portlet-title;">
+                                                                            <div class="caption" data-toggle="collapse" data-target="#City_@city.CityId">
+                                                                                <span class="caption-subject font-green-sharp">
+                                                                                    @city.CityName
+                                                                                    <span class="badge badge-primary">@city.Districts.Count(c => c.ObjectRealties.Any())</span>
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="portlet-body">
+                                                                                <div id="City_@city.CityId" class="collapse">
+                                                                                    <ul class="nav nav-pills nav-stacked">
+                                                                                        @foreach (District district in city.Districts)
+                                                                                        {
+                                                                                            if (district.ObjectRealties.Any())
+                                                                                            {
+                                                                                                <li style="margin-left: 10px; cursor: pointer">
+                                                                                                    <div class="portlet-title">
+                                                                                                        <div class="caption" data-toggle="collapse" data-target="#District_@district.DistrictId">
+                                                                                                            <span class="caption-subject font-green-sharp">
+                                                                                                                @if (!district.DistrictName.Contains("район"))
+                                                                                                                {
+                                                                                                                    @district.DistrictName
+                                                                                                                    @:район
+                                                                                                                    <span class="badge badge-danger">@district.ObjectRealties.Select(s => s.ObjectType).Distinct().Count()</span>
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                    @district.DistrictName
+                                                                                                                }
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                        <div id="District_@district.DistrictId" class="collapse">
+                                                                                                            <ul class="nav nav-pills nav-stacked">
+                                                                                                                @foreach (ObjectType objectType in district.ObjectRealties.Select(s => s.ObjectType).Distinct())
+                                                                                                                {
+
+                                                                                                                    <li style="margin-left: 15px">
+                                                                                                                        <a class="caption-subject font-green-sharp" data-toggle="collapse"
+                                                                                                                           data-target=".multi-collapse-Country-@country.CountryId-region-@region.RegionId-city-@city.CityId-district-@district.DistrictId-@objectType.ObjectTypeId">
+                                                                                                                            @objectType.ObjectTypeName
+                                                                                                                            <span class="badge badge-success">
+                                                                                                                                @objectType.ObjectRealties.Count(c => c.DistrictId == district.DistrictId)
+                                                                                                                            </span>
+                                                                                                                        </a>
+                                                                                                                    </li>
+                                                                                                                }
+                                                                                                            </ul>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </li>
+                                                                                            }
+                                                                                        }
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+            }
+        }
+    </div>
+</div>

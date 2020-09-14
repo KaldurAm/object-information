@@ -1,0 +1,42 @@
+﻿@model ObjectInformation.DAL.Model.DocumentType
+
+@{
+    ViewBag.Title = "Создание";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Типа документа</h4>
+        <hr />
+        @Html.ValidationSummary(true, null, new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DocumentTypeName, "Наименование типа документа", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DocumentTypeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DocumentTypeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-success">
+                    Создать
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Обратно к списку", "Index", null, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

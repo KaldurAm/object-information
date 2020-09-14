@@ -1,0 +1,48 @@
+﻿@using ObjectInformation.DAL.Model
+@model List<Upload>
+
+<div class="imageWrapper">
+    <div class="images">
+        @foreach (Upload photo in Model)
+        {
+            <div style="position:relative">
+                <button type="button" class="delBtn" onclick="DeleteUpload(@photo.UploadId)">X</button>
+                <img width="70" height="70" src="@photo.Path" />
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .imageWrapper {
+        padding: 10px 30px 30px 30px;
+        text-align: center;
+    }
+
+    .imageWrapper span {
+        font-size: 25px;
+    }
+
+    .images {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .images div {
+        margin: 10px;
+    }
+
+    .delBtn {
+        z-index: 100;
+        position: absolute;
+        left: 100%;
+        top: -15%;
+        background-color: transparent;
+        border: none;
+        transition: 1s;
+    }
+
+    .delBtn:hover {
+        background-color: dimgray;
+    }
+</style>

@@ -1,0 +1,76 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using ObjectInformation.DAL.Model
+@model Country
+@{
+    ViewBag.Title = "Страны";
+    int? isErrorMessage = ViewBag.isErrorMessage;
+    string message = ViewBag.message;
+    List<Country> countries = (List<Country>)ViewBag.Countries;
+
+}
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Страны <small>...</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Страны</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+    </ul>
+
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Действия <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#" onclick="AppCountry.GetModalWindowForEditandPopulate(null, this);">Добавить</a>
+                </li>
+                <li>
+                    <a href="#">Импорт в Excel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <table class="table table-bordered table-advance table-hover table-striped" id="tableCountry">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Наименование</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
+
+        @Html.Partial("Country/_modifyCountry")
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="../../Content/assets/plugins/AppCountry.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            AppCountry.init();
+        });
+    </script>
+}

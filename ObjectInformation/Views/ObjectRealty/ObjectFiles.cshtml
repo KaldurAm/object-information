@@ -1,0 +1,40 @@
+﻿@model List<ObjectInformation.DAL.Model.Upload>
+
+<div class="images">
+    @foreach (var file in Model)
+    {
+        <div class="fileWrap">
+            <div>
+                <a href="@Url.Action("SendFile", new { path = file.Path, fileName = file.FileName})"><i class="fas fa-arrow-down"></i></a>
+                <span>@file.FileName</span>
+                <button class="delBtn2" type="button" onclick="DeleteUpload(@file.UploadId)">X</button>
+            </div>
+            <div>
+                <span>Тип документа: <b>@file.DocumentType.DocumentTypeName</b></span>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .fileWrap {
+        position: relative;
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    .images {
+        display: flex;
+        flex-wrap: wrap; 
+    }
+
+    .delBtn2 {
+        background-color: transparent;
+        border: none;
+        transition: 0.2s;
+    }
+
+    .delBtn2:hover {
+        background-color: dimgray;
+    }
+</style>

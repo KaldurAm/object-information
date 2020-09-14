@@ -1,0 +1,101 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using ObjectInformation.DAL.Model
+@model Country
+@{
+    ViewBag.Title = "Города";
+}
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Города <small>...</small>
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Регионы</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+    </ul>
+
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                Действия <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#" onclick="AppCity.GetModalWindowForEditandPopulate(null, this);">Добавить</a>
+                </li>
+                <li>
+                    <a href="#">Импорт в Excel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        @foreach (var country in (List<Country>)ViewBag.Countries)
+        {
+            <h3>@country.CountryName</h3>
+            foreach (var region in country.Regions)
+            {
+                <h4>@region.RegionName</h4>
+
+                <table id="tableCity_@region.RegionId" class="table table-bordered table-advance table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th> Наименование города</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var city in ((List<City>)ViewBag.Cities).Where(w=>w.RegionId == region.RegionId))
+                        {
+                                <tr>
+                                    <td>@city.CityId</td>
+                                    <td>@city.CityName</td>
+                                    <td>
+                                        <div class="btn-group  btn-group-solid">
+                                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                 <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" style="text-align: left">
+                                                <li><a onclick="AppCity.GetModalWindowForEditandPopulate('@city.CityId', this)" class="edit-button">Редактировать</a></li> 
+                                                <li><a onclick="AppCity.DeleteRow('@city.CityId', this) " class="delete-button">Удалить</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            }
+        }
+
+        @Html.Partial("City/_modifyCity")
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="../../Content/assets/plugins/AppCity.js?v=@DateTime.Now.Ticks"></script>
+
+    <script>
+        $(document).ready(function () {
+            AppCity.init();
+        });
+    </script>
+}

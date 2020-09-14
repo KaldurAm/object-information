@@ -1,0 +1,71 @@
+﻿
+@using System.Web.Mvc.Html
+<div id="modifyObjectDocument" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="modal-body" style="margin-bottom:-25px; padding:0px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal ">
+                                <div class="form-body">
+                                    <input type="hidden" name="DocObjectRealtyId" id="DocObjectRealtyId" value="0">
+                                    <input type="hidden" name="DocUploadId" id="DocUploadId" value="0">
+                                    <br style="clear: both" />
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Тип документа</label>
+                                        <div class="col-md-7">
+                                            <select class="form-control" id="DocumentTypeId" name="DocumentTypeId"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Заголовок</label>
+                                        <div class="col-md-7">
+                                            <input class="form-control" id="DocFileHeader" name="DocFileHeader" value="">
+                                            <span class="help-block">Введите название документа</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Описание</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" id="DocFileDescription" name="DocFileDescription"></textarea>
+                                            <span class="help-block">Введите описание документа</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Файл</label>
+                                        <div class="col-md-7">
+                                            <div class="form-group" id="FileButtonUploadDoc">
+                                                <button type="button" class="btn btn-success fileinput-button" id="BtnUploadDoc">
+                                                    <span>Выберете файл...</span>
+                                                </button>
+                                                <input type="file" id="FileUploadDoc" name="FileUploadDoc" class="btn default" style="display: none" />
+                                                <input type="text" id="tbx-file-path-doc" value="..." readonly="readonly" class="btn-sm default" style="text-align: center" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br style="clear: both" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Добавить" id="hl-start-upload-doc" class="btn btn-primary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
