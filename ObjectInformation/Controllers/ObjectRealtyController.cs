@@ -42,11 +42,12 @@ namespace ObjectInformation.Controllers
                 string msg;
                 if (ServiceObjectRealty.AddObjectRealty(ref objectRealty, out msg))
                 {
+                  
                     ViewBag.ObjectPropertiesM =db.ObjectProperties.Where(w => w.ObjectRealtyId == objectRealty.ObjectRealtyId).ToList();
                     ViewBag.ObjectImage = db.Uploads.Where(w => w.ObjectRealtyId == objectRealty.ObjectRealtyId).ToList();
                     ViewBag.Properties = Service.GetProperties().Select(s => new SelectListItem() { Text = s.Name, Value = s.PropertyId.ToString() }).ToList();
                     ViewBag.ObjectRealtyPledgers = ServicePledgers.GetObjectRealtyPledgersByObjectId(0);
-                    return View(objectRealty);
+                      return View(objectRealty);
                 }
                 else
                 {

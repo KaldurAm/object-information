@@ -1,0 +1,9 @@
+2020-09-15 20:41:35.7244|ERROR|ObjectInformation.Controllers.ObjectRealtyController|Save, ???????? ??????: Sequence contains no elements
+2020-09-15 20:43:24.0101|ERROR|ObjectInformation.DAL.Service|UploadPhoto, ???????? ??????: An error occurred while updating the entries. See the inner exception for details.
+InnerException: An error occurred while updating the entries. See the inner exception for details.
+InnerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_dbo.Upload_dbo.ObjectRealty_ObjectRealtyId". The conflict occurred in database "ObjectInformation", table "dbo.ObjectRealty", column 'ObjectRealtyId'.
+The statement has been terminated.
+2020-09-15 20:43:56.2564|ERROR|ObjectInformation.DAL.Service|UploadPhoto, ???????? ??????: An error occurred while updating the entries. See the inner exception for details.
+InnerException: An error occurred while updating the entries. See the inner exception for details.
+InnerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_dbo.Upload_dbo.ObjectRealty_ObjectRealtyId". The conflict occurred in database "ObjectInformation", table "dbo.ObjectRealty", column 'ObjectRealtyId'.
+The statement has been terminated.

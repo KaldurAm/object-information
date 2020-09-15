@@ -20,38 +20,29 @@ namespace ObjectInformation.DAL.Model
         [Key]
         public int ObjectRealtyId { get; set; }
 
-        [Required]
-        public int ObjectTypeId { get; set; }
+        public int? ObjectTypeId { get; set; }
 
-        [Required(ErrorMessage = "Это поле является обязательным!")]
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
 
-        [Required(ErrorMessage = "Это поле является обязательным!")]
-        public int RegionId { get; set; }
+        public int? RegionId { get; set; }
 
-        [Required(ErrorMessage = "Это поле является обязательным!")]
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
 
-        [Required(ErrorMessage = "Это поле является обязательным!")]
-        public int DistrictId { get; set; }
-
-
+        public int? DistrictId { get; set; }
 
         [StringLength(200)]
         public string Name { get; set; }
 
-        [Required]
-        public double Cost { get; set; }
+        public double? Cost { get; set; }
 
-        public int CurrencyId { get; set; }
+        public int? CurrencyId { get; set; }
 
         public DateTime? CostDate { get; set; }
         public DateTime? DateOfSale { get; set; }
 
         public double CurrencyRate { get; set; }
 
-        [Required]
-        public double Square { get; set; }
+        public double? Square { get; set; }
 
         public string Description { get; set; }
 
@@ -68,8 +59,6 @@ namespace ObjectInformation.DAL.Model
         [Column(name: "CostDCT")]
         public double CostDCT { get; set; }
         public string Address { get; set; }
-
-
 
         public virtual Country Country { get; set; }
         public virtual Region Region { get; set; }

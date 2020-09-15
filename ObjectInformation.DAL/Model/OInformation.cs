@@ -5,7 +5,7 @@ namespace ObjectInformation.DAL.Model
     public partial class OInformation : DbContext
     {
         public OInformation()
-            : base("data source=KMERGAZIYEV\\SQLEXPRESS;initial catalog=ObjectInformation;MultipleActiveResultSets=True;User ID=kmerg; Password=!Kpo4322002;")
+            : base("data source=KMERGAZIYEV\\SQLEXPRESS;initial catalog=ObjectInformation;MultipleActiveResultSets=True;User ID=kmerg; Password=!Kpo4322002")
         { }
 
         public virtual DbSet<City> Cities { get; set; }

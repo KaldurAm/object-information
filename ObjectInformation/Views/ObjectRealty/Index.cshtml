@@ -99,7 +99,7 @@
                 </td>
 
                 <td>
-                    @Model[i].Cost <span class="badge badge-default">@Model[i].Currency.Name</span>
+                    @Model[i].Cost <span class="badge badge-default">@Model[i].Currency?.Name</span>
             </td>
                 <td>
                     @string.Format("{0:dd.MM.yyyy}", Model[i].CostDate)
