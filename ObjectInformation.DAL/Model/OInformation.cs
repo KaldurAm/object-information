@@ -4,12 +4,8 @@ namespace ObjectInformation.DAL.Model
 
     public partial class OInformation : DbContext
     {
-        //public OInformation()
-        //    : base("name=OInformation")
-        //{ }
-
         public OInformation()
-            : base("name=OInformation")
+            : base("data source=KMERGAZIYEV\\SQLEXPRESS;initial catalog=ObjectInformation;MultipleActiveResultSets=True;User ID=kmerg; Password=!Kpo4322002;")
         { }
 
         public virtual DbSet<City> Cities { get; set; }
@@ -34,8 +30,6 @@ namespace ObjectInformation.DAL.Model
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
-          
             modelBuilder.Entity<Country>()
                 .HasMany(e => e.Regions)
                 .WithRequired(e => e.Country)
@@ -85,8 +79,8 @@ namespace ObjectInformation.DAL.Model
                 .HasMany(e => e.Uploads)
                 .WithRequired(e => e.DocumentType)
                 .WillCascadeOnDelete(true);
-            //Помогает , если вылазитт ошибка о том, что база была изменена
-            Database.SetInitializer<OInformation>(null);
+            
+            //Database.SetInitializer<OInformation>(null);
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -19,7 +19,7 @@ namespace ObjectInformation.Controllers
     }
 
     [Authorize]
-    public class CityController : BaseController
+    public class CityController : BaseController, IDisposable
     {
         public ActionResult City()
         {
@@ -136,7 +136,6 @@ namespace ObjectInformation.Controllers
 
             return null;
         }
-
 
         /// <summary>
         /// Метод удаляет город

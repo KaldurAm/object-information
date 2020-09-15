@@ -193,12 +193,6 @@ namespace ObjectInformation.Controllers
             }).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
 
-
-
-
-
-
-
         public ActionResult CreateDistrict(District district)
         {
 
@@ -280,6 +274,5 @@ namespace ObjectInformation.Controllers
 
             return RedirectToAction("Index", "District", new { status = indexStatus, message = indexMessage });
         }
-
     }
 }

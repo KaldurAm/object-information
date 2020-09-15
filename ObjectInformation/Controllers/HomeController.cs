@@ -23,9 +23,6 @@ namespace ObjectInformation.Controllers
             return View(countryList);
         }
 
-
-
-
         public ContentResult Squere()
         {
             return Content("<h2>Площадб треугольника с оноввнием а</h2>");

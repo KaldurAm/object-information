@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -21,7 +22,7 @@ namespace ObjectInformation.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: true)
+            : base("data source=KMERGAZIYEV\\SQLEXPRESS;initial catalog=ObjectInformation;MultipleActiveResultSets=True;User ID=kmerg; Password=!Kpo4322002;")
         {
 
         }

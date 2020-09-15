@@ -141,12 +141,6 @@ namespace ObjectInformation.Controllers
             return jsonResult;
         }
 
-
-
-
-
-
-
         public ActionResult DeleteRegion(int regionId = 0)
         {
             if (regionId != 0)

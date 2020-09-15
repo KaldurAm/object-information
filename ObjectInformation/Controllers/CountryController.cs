@@ -114,12 +114,6 @@ namespace ObjectInformation.Controllers
             return null;
         }
 
-
-
-
-
-
-
         public ActionResult DeleteCountry(int countryId = 0)
         {
             if (countryId != 0)

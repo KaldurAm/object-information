@@ -9,7 +9,7 @@ using ObjectInformation.DAL.Model;
 namespace ObjectInformation.Controllers
 {
     [Authorize]
-    public class AjaxApiController : BaseController
+    public class AjaxApiController : BaseController, IDisposable
     {
         [HttpPost]
         public JsonResult GetCountry()

@@ -90,7 +90,6 @@ namespace ObjectInformation.Controllers
             return View(objectRealty);
         }
 
-
         #region  РАБОТА со свойствами объекта
         [HttpGet]
         public JsonResult ViewForEditObjectProperty(int value)
@@ -99,6 +98,7 @@ namespace ObjectInformation.Controllers
 
             return Json(objectProperty.Select(s => new { s.ObjectPropertyId, s.PropertyId, s.Value, s.ObjectRealtyId }).SingleOrDefault(), JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public ActionResult ModifyObjectProperty(string json)
         {
@@ -215,7 +215,6 @@ namespace ObjectInformation.Controllers
             return Json(null, "text/html");
         }
 
-
         [HttpPost]
         public ActionResult DeleteObjectImageRow(int value = 0)
         {
@@ -274,7 +273,6 @@ namespace ObjectInformation.Controllers
             return Json(new { isUploaded = false, message = "При загрузке файла произошла ошибка!" }, "text/html");
         }
 
-
         [HttpPost]
         public ActionResult DeleteObjectDocumentRow(int value = 0)
         {
@@ -327,7 +325,6 @@ namespace ObjectInformation.Controllers
             return Json(0, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
 
         private bool Save(Upload upload, HttpPostedFileBase file)
         {
@@ -475,34 +472,6 @@ namespace ObjectInformation.Controllers
         //
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public ActionResult ObjectType(int isErrorMessage = -1, string message = "")
         {
             ViewBag.isErrorMessage = isErrorMessage;
@@ -510,8 +479,6 @@ namespace ObjectInformation.Controllers
             ViewBag.ObjectTypes = Service.GetObjectTypes();
             return View();
         }
-
-
 
         public ActionResult AddObjectType(ObjectType objectType)
         {
@@ -539,23 +506,6 @@ namespace ObjectInformation.Controllers
             }
             return RedirectToAction("ObjectType");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Метод возвращает справочник свойст
@@ -593,8 +543,9 @@ namespace ObjectInformation.Controllers
                 pageSize = pageSize < 0 ? recordsCount : pageSize;
                 int fromRow = int.Parse(Request["start"]);
                 int sEcho = int.Parse(Request["draw"]);
-                int pageNumber = (fromRow + pageSize) / pageSize;
-                if (pageNumber == 0) pageNumber = 1;
+                int pageNumber = pageSize > 0 ? (fromRow + pageSize) / pageSize : 1;
+                if (pageSize < pageNumber)
+                    pageSize = pageNumber;
 
 
                 var test = Json(new { draw = sEcho, recordsTotal = recordsCount, recordsFiltered = recordsCount, data = projectsList.ToPagedList(pageNumber, pageSize) }, JsonRequestBehavior.AllowGet);
@@ -691,10 +642,6 @@ namespace ObjectInformation.Controllers
             return null;
         }
 
-
-
-
-
         /// <summary>
         /// Метод удаляет свойство
         /// </summary>
@@ -747,7 +694,6 @@ namespace ObjectInformation.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-
         //Типы объектов
         /// <summary>
         /// Метод возвращает справочник типов объектов
@@ -776,9 +722,11 @@ namespace ObjectInformation.Controllers
                 pageSize = pageSize < 0 ? recordsCount : pageSize;
                 int fromRow = int.Parse(Request["start"]);
                 int sEcho = int.Parse(Request["draw"]);
-                int pageNumber = (fromRow + pageSize) / pageSize;
-                if (pageNumber == 0) pageNumber = 1;
-
+                int pageNumber = pageSize > 0 ? (fromRow + pageSize) / pageSize : 1;
+                if (pageSize < pageNumber)
+                {
+                    pageSize = pageNumber;
+                }
 
                 var test = Json(new { draw = sEcho, recordsTotal = recordsCount, recordsFiltered = recordsCount, data = projectsList.ToPagedList(pageNumber, pageSize) }, JsonRequestBehavior.AllowGet);
 
@@ -857,12 +805,6 @@ namespace ObjectInformation.Controllers
             return null;
         }
 
-
-
-
-
-
-
         public ActionResult Property(int isErrorMessage = -1, string message = "")
         {
             ViewBag.isErrorMessage = isErrorMessage;
@@ -909,34 +851,6 @@ namespace ObjectInformation.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public ActionResult DeleteObject(int objectId)
         {
             string msg;
@@ -973,7 +887,6 @@ namespace ObjectInformation.Controllers
             return File(path, MimeMapping.GetMimeMapping(fileName), fileName);
         }
 
-
         //[HttpPost]
         //public virtual ActionResult UploadFiles(int objectId, int fileType)
         //{
@@ -984,8 +897,6 @@ namespace ObjectInformation.Controllers
         //        return Json(new { isUploaded = true, message = "Файл был загружен" }, "text/html");
         //    return Json(new { isUploaded = false, message = "При загрузке файла произошла ошибка!" }, "text/html");
         //}
-
-
 
         [HttpPost]
         public JsonResult GetRegions(int countryId)

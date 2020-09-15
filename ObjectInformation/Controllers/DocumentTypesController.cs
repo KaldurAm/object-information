@@ -13,7 +13,6 @@ namespace ObjectInformation.Controllers
     [Authorize]
     public class DocumentTypesController : BaseController
     {
-
         // GET: DocumentTypes
         public async Task<ActionResult> Index(int isErrorMessage = -1, string message = "")
         {
@@ -113,11 +112,6 @@ namespace ObjectInformation.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-
-
-
 
         public ActionResult ChecklistDocument()
         {

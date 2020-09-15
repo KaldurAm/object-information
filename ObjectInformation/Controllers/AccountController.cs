@@ -94,7 +94,7 @@ namespace ObjectInformation.Controllers
             }
             catch (Exception exception)
             {
-                throw;
+                throw exception;
             }
         }
 
