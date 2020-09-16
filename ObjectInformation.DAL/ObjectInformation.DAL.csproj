@@ -39,10 +39,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
@@ -65,12 +71,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ApplicationUser.cs" />
     <Compile Include="Model\ObjectRealtyPledgers.cs" />
     <Compile Include="Model\Pledgers.cs" />
     <Compile Include="Model\Coordinate.cs" />
     <Compile Include="Model\Checklist.cs" />
     <Compile Include="Model\Polygon.cs" />
     <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\Task.cs" />
     <Compile Include="Model\Unit.cs" />
     <Compile Include="Model\City.cs" />
     <Compile Include="Model\Comment.cs" />
@@ -85,12 +93,16 @@
     <Compile Include="Model\Property.cs" />
     <Compile Include="Model\Region.cs" />
     <Compile Include="Model\Upload.cs" />
+    <Compile Include="Model\TaskStatus.cs" />
+    <Compile Include="Model\TaskFile.cs" />
+    <Compile Include="Model\TaskResponsible.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="ServiceDocument.cs" />
     <Compile Include="ServiceMap.cs" />
     <Compile Include="ServiceObjectRealty.cs" />
     <Compile Include="ServicePledgers.cs" />
+    <Compile Include="TaskService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

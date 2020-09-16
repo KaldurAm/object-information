@@ -8,11 +8,11 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using ObjectInformation.DAL.Model;
 using ObjectInformation.Models;
 
 namespace ObjectInformation.Controllers
 {
-    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

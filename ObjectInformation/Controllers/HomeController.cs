@@ -17,8 +17,6 @@ namespace ObjectInformation.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            ApplicationDbContext dbContext = new ApplicationDbContext();
-            var s = dbContext.Users.FirstOrDefault(f => f.UserName == User.Identity.Name);
             var countryList = db.Countries.ToList();
             return View(countryList);
         }

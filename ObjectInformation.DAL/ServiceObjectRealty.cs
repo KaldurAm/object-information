@@ -8,7 +8,7 @@ using ObjectInformation.DAL.Model;
 
 namespace ObjectInformation.DAL
 {
-    public class ServiceObjectRealty
+    public class ServiceObjectRealty : IDisposable
     {
         private static OInformation db = new OInformation();
 
@@ -20,16 +20,15 @@ namespace ObjectInformation.DAL
         {
             List<ObjectRealty> objectRealty = db.ObjectRealties
                 .Where(w => w.ObjectTypeId != 0)
-               .Include(c => c.ObjectType)
-               .Include(c => c.Currency)
-
+                .Include(c => c.ObjectType)
+                .Include(c => c.Currency)
+                .Include(c => c.Tasks)
                 .Include(c => c.Country)
-               .Include(c => c.Region)
+                .Include(c => c.Region)
                 .Include(c => c.City)
-               .Include(c => c.District)
-
-                .OrderBy(o => o.ObjectRealtyId).ToList();
-
+                .Include(c => c.District)
+                .OrderBy(o => o.ObjectRealtyId)
+                .ToList();
             return objectRealty;
         }
 
@@ -190,6 +189,11 @@ namespace ObjectInformation.DAL
                 msg = ex.Message;
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            db?.Dispose();
         }
     }
 }

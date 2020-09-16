@@ -27,6 +27,10 @@ namespace ObjectInformation.DAL.Model
         public virtual DbSet<Checklist> Checklists { get; set; }
         public virtual DbSet<Pledgers> Pledgers { get; set; }
         public virtual DbSet<ObjectRealtyPledgers> ObjectRealtyPledgers { get; set; }
+        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<TaskStatus> TaskStatuses { get; set; }
+        public virtual DbSet<TaskFile> TaskFiles { get; set; }
+        public virtual DbSet<TaskResponsible> TaskResponsibles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -48,6 +52,11 @@ namespace ObjectInformation.DAL.Model
             modelBuilder.Entity<District>()
                 .HasMany(e => e.ObjectRealties)
                 .WithRequired(e => e.District)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Currency>()
+                .HasMany(e => e.ObjectRealties)
+                .WithRequired(e => e.Currency)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ObjectType>()
@@ -79,8 +88,12 @@ namespace ObjectInformation.DAL.Model
                 .HasMany(e => e.Uploads)
                 .WithRequired(e => e.DocumentType)
                 .WillCascadeOnDelete(true);
-            
-            //Database.SetInitializer<OInformation>(null);
+
+            modelBuilder.Entity<Task>()
+                .HasMany(e => e.Files)
+                .WithRequired(e => e.Task)
+                .WillCascadeOnDelete(true);
+
             base.OnModelCreating(modelBuilder);
         }
     }

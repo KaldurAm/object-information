@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using ObjectInformation.Models;
+using ObjectInformation.DAL.Model;
 
 namespace ObjectInformation
 {

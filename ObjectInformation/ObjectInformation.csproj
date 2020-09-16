@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ObjectInformation</RootNamespace>
     <AssemblyName>ObjectInformation</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -224,6 +224,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PledgersController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,6 +238,7 @@
     <Compile Include="Controllers\ObjectRealtyController.cs" />
     <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Models\ObjectModel.cs" />
+    <Compile Include="Models\UserInfoModelView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -4412,6 +4414,7 @@
     <Content Include="assets\plugins\select2\select2_locale_zh-CN.js" />
     <Content Include="assets\plugins\select2\select2_locale_zh-TW.js" />
     <Content Include="assets\plugins\select2\select2_metro.css" />
+    <Content Include="assets\plugins\TaskScript.js" />
     <Content Include="assets\script.js" />
     <Content Include="assets\scriptEditPolygon.js" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -4831,6 +4834,7 @@
     <Content Include="Views\Pledgers\Index.cshtml" />
     <Content Include="Views\Shared\Pledgers\_modifyPledgers.cshtml" />
     <Content Include="Views\Shared\ObjectRealty\_addObjectRealtyPledgers.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4844,6 +4848,7 @@
     <Folder Include="fonts\" />
     <Folder Include="Views\AjaxApi\" />
     <Folder Include="Views\Menu\" />
+    <Folder Include="Views\TaskManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

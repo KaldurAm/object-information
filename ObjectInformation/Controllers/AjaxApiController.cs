@@ -24,7 +24,6 @@ namespace ObjectInformation.Controllers
             return jsonResult;
         }
 
-
         [HttpPost]
         public JsonResult GetRegions()
         {
@@ -51,7 +50,6 @@ namespace ObjectInformation.Controllers
             return jsonResult;
         }
 
-
         [HttpPost]
         public JsonResult GetCity()
         {
@@ -77,7 +75,6 @@ namespace ObjectInformation.Controllers
             }), JsonRequestBehavior.AllowGet);
             return jsonResult;
         }
-
 
         [HttpPost]
         public JsonResult GetDistrict()
@@ -117,7 +114,6 @@ namespace ObjectInformation.Controllers
             }), JsonRequestBehavior.AllowGet);
             return jsonResult;
         }
-
 
         [HttpPost]
         public JsonResult GetObjectTypes()

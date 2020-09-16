@@ -15,6 +15,7 @@ namespace ObjectInformation.DAL.Model
             Comments = new HashSet<Comment>();
             ObjectProperties = new HashSet<ObjectProperty>();
             Uploads = new HashSet<Upload>();
+            Tasks = new HashSet<Task>();
         }
 
         [Key]
@@ -38,6 +39,7 @@ namespace ObjectInformation.DAL.Model
         public int? CurrencyId { get; set; }
 
         public DateTime? CostDate { get; set; }
+
         public DateTime? DateOfSale { get; set; }
 
         public double CurrencyRate { get; set; }
@@ -59,37 +61,33 @@ namespace ObjectInformation.DAL.Model
         [Column(name: "CostDCT")]
         public double CostDCT { get; set; }
         public string Address { get; set; }
-
         public virtual Country Country { get; set; }
         public virtual Region Region { get; set; }
         public virtual City City { get; set; }
         public virtual District District { get; set; }
 
-        public string GetFullAddress()
-        {
-            string[] addressArr = new string[5];
-            addressArr[0] = Country!=null ? Country.CountryName : "";
-            addressArr[1] = Region!=null?Region.RegionName: "";
-            addressArr[2] = City!=null ? City.CityName: "";
-            addressArr[3] = District!=null ? District.DistrictName: "";
-            addressArr[3] = Address;
-
-            string address = string.Join(", ", addressArr);
-            return address.Substring(0,address.Length-2);
-        }
-
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ObjectProperty> ObjectProperties { get; set; }
 
         public virtual ObjectType ObjectType { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Upload> Uploads { get; set; }
 
         public virtual Currency Currency { get; set; }
+
+        public virtual ICollection<Task> Tasks { get; set; }
+
+        public string GetFullAddress()
+        {
+            string[] addressArr = new string[5];
+            addressArr[0] = Country?.CountryName ?? "";
+            addressArr[1] = Region?.RegionName ?? "";
+            addressArr[2] = City?.CityName ?? "";
+            addressArr[3] = District?.DistrictName ?? "";
+            addressArr[3] = Address;
+            string address = string.Join(", ", addressArr);
+            return address.Substring(0, address.Length - 2);
+        }
     }
 }

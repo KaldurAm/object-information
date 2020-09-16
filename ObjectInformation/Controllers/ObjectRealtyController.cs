@@ -26,7 +26,6 @@ namespace ObjectInformation.Controllers
             List<ObjectRealty> objectRealties = ServiceObjectRealty.GetObjectRealties();
             ViewBag.ObjectProperty = db.ObjectProperties.ToList();
             ViewBag.Uploads = db.Uploads.ToList();
-
             return View(objectRealties);
         }
 
@@ -204,7 +203,6 @@ namespace ObjectInformation.Controllers
                 return Json(new { isUploaded = false, message = "При загрузке файла произошла ошибка!" }, "text/html");
             }
         }
-
 
         [HttpPost]
         public virtual ActionResult EditUpload(string json)
@@ -813,6 +811,7 @@ namespace ObjectInformation.Controllers
             ViewBag.Properties = Service.GetProperties();
             return View();
         }
+
         public ActionResult AddProperty(Property property)
         {
             if (ModelState.IsValid)
@@ -839,6 +838,7 @@ namespace ObjectInformation.Controllers
             }
             return RedirectToAction("Property");
         }
+
         public ActionResult DeleteProperty(int propertyId)
         {
             string msg;
@@ -878,11 +878,13 @@ namespace ObjectInformation.Controllers
             var photos = db.Uploads.Where(w => w.ObjectRealtyId == objectId && w.DocumentType.DocumentTypeName == "Photo").ToList();
             return PartialView("ObjectPhotos", photos);
         }
+
         public ActionResult ObjectFiles(int objectId)
         {
             var photos = db.Uploads.Where(w => w.ObjectRealtyId == objectId && w.DocumentType.DocumentTypeName == "Photo").ToList();
             return PartialView("ObjectPhotos", photos);
         }
+
         public FileResult SendFile(string path, string fileName)
         {
             return File(path, MimeMapping.GetMimeMapping(fileName), fileName);
@@ -906,6 +908,7 @@ namespace ObjectInformation.Controllers
             JsonResult jsonResult = Json(regions.Select(s => new { id = s.RegionId, name = s.RegionName }), JsonRequestBehavior.AllowGet);
             return jsonResult;
         }
+
         [HttpPost]
         public JsonResult GetCities(int regionId)
         {
@@ -913,6 +916,7 @@ namespace ObjectInformation.Controllers
             JsonResult jsonResult = Json(cities.Select(s => new { id = s.CityId, name = s.CityName }), JsonRequestBehavior.AllowGet);
             return jsonResult;
         }
+
         [HttpPost]
         public JsonResult GetDistricts(int citiId)
         {
@@ -920,6 +924,7 @@ namespace ObjectInformation.Controllers
             JsonResult jsonResult = Json(districts.Select(s => new { id = s.DistrictId, name = s.DistrictName }), JsonRequestBehavior.AllowGet);
             return jsonResult;
         }
+
         [HttpPost]
         public JsonResult GetProperties()
         {
@@ -927,6 +932,7 @@ namespace ObjectInformation.Controllers
             JsonResult jsonResult = Json(regions.Select(s => new { id = s.PropertyId, name = s.Name }), JsonRequestBehavior.AllowGet);
             return jsonResult;
         }
+
         [HttpPost]
         public ActionResult DeleteUpload(int id, int objectId)
         {

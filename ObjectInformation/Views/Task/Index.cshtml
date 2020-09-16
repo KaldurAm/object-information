@@ -1,0 +1,42 @@
+﻿@model ObjectInformation.DAL.Model.Task
+
+@{
+    ViewBag.Title = "Задачи";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post))
+            {
+                <input type="hidden" value="@Model.ObjectRealtyId" name="ObjectRealtyId" />
+                <input type="hidden" value="@Model.Creator" name="Creator" />
+
+                <h1>Задача</h1><hr />
+                <textarea name="TaskDescription" type="text" class="form-control" placeholder="Описание задачи"></textarea>
+                <br />
+                @*<a class="btn btn-primary" onclick="TaskManager.ViewObjectDocument(null, this);">Прикрепить файл</a>
+                <br /><br />*@
+                <label for="Deadline">Выберите срок завершения задачи</label>
+                <input name="Deadline" type="text" class="form-control datepicker" style="width: 200px; cursor:pointer;" autocomplete="off" />
+                <br /><br />
+                <button id="Add" class="btn btn-success" type="submit">Добавить</button>
+                <br /><hr>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            $('.datepicker').datepicker({
+                format: 'dd.mm.yyyy',
+                startDate: new Date(),
+                weekStart: 1,
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
+}

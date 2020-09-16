@@ -56,7 +56,6 @@
 <div class="row" style="margin-top: -30px">
     <div class="col-md-12">
         <ul class="nav nav-tabs" id="tabControl" role="tablist" style="margin-top: 20px">
-
             <li class="nav-item active">
                 <a class="nav-link" id="map-tab" data-toggle="tab" href="#mapTab" role="tab" aria-controls="mapTab" aria-selected="false">Карты</a>
             </li>
@@ -83,16 +82,11 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(h => Model.ObjectRealtyId)
 
-                <!-- Tab panes -->
+            <!-- Tab panes -->
             <div class="tab-content">
 
-
-
                 <div class="tab-pane active" id="mapTab" role="tabpanel" aria-labelledby="mapTab-tab">
-
                     <button class="btn btn-primary" style="margin-bottom: 20px" id="next" type="button">Новый участок</button>
-                    @*<button class="btn btn-primary" id="save-map" style="margin-bottom: 20px" type="button">Сохранить участки</button>*@
-
                     <div id="map" style="height: 600px">&nbsp;</div>
                 </div>
 
@@ -106,8 +100,8 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Название</label>
                                     <div class="col-md-7">
-                                        @Html.TextBoxFor(f => Model.Name, new {@class = "form-control"})
-                                        @Html.ValidationMessageFor(f => Model.Name, "", new {@style = "color:red"})
+                                        @Html.TextBoxFor(f => Model.Name, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(f => Model.Name, "", new { @style = "color:red" })
                                         <span class="help-block">&nbsp</span>
                                     </div>
                                 </div>
@@ -133,8 +127,8 @@
                                 <div class="col-md-7">
                                     <div class="row">
                                         <div class="col-md-7">
-                                            @Html.TextBoxFor(f => Model.Cost, new {@class = "form-control maskNumber"})
-                                            @Html.ValidationMessageFor(f => Model.Cost, "", new {@style = "color:red"})
+                                            @Html.TextBoxFor(f => Model.Cost, new { @class = "form-control maskNumber" })
+                                            @Html.ValidationMessageFor(f => Model.Cost, "", new { @style = "color:red" })
                                         </div>
                                         <div class="col-md-5">
                                             <select class="form-control" id="CurrencyId" name="CurrencyId"></select>
@@ -147,8 +141,8 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Курс валюты</label>
                                 <div class="col-md-7">
-                                    @Html.TextBoxFor(f => Model.CurrencyRate, new {@class = "form-control"})
-                                    @Html.ValidationMessageFor(f => Model.CurrencyRate, "", new {@style = "color:red"})
+                                    @Html.TextBoxFor(f => Model.CurrencyRate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(f => Model.CurrencyRate, "", new { @style = "color:red" })
                                     <span class="help-block">Укажите курс валюты на дату приобритения</span>
                                 </div>
                             </div>
@@ -156,13 +150,11 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Дата приобритения</label>
                                 <div class="col-md-7">
-                                    @Html.TextBoxFor(f => Model.CostDate, new {@class = "form-control date-picker"})
-                                    @Html.ValidationMessageFor(f => Model.CostDate, "", new {@style = "color:red"})
+                                    @Html.TextBoxFor(f => Model.CostDate, new { @class = "form-control date-picker" })
+                                    @Html.ValidationMessageFor(f => Model.CostDate, "", new { @style = "color:red" })
                                     <span class="help-block">Выберите дату приобретения</span>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="col-lg-4 col-sm-5 col-sm-offset-1">
@@ -217,7 +209,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Кадастровый номер</label>
                                     <div class="col-md-7">
-                                        @Html.TextBoxFor(f => Model.CadastralNumber, new { @class = "form-control"})
+                                        @Html.TextBoxFor(f => Model.CadastralNumber, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(f => Model.CadastralNumber, "", new { @style = "color:red" })
                                         <span class="help-block">Укажите Кадастровый номер</span>
                                     </div>
@@ -270,61 +262,27 @@
                             }
                             @foreach (var prop in (List<ObjectProperty>)ViewBag.ObjectPropertiesM)
                             {
-                            <tr>
-                                <td>@porpCount</td>
-                                <td>@prop.Property.Name</td>
-                                <td>@prop.Value @prop.Property.Unit.Name (@prop.Property.Unit.Description)</td>
-                                <td>
-                                    <div class="btn-group  btn-group-solid">
-                                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" style="text-align: left">
-                                            <li><a onclick=" AppObjectRealty.ViewObjectProperty('@prop.ObjectPropertyId', this) " class="edit-button">Редактировать</a></li>
-                                            <li><a onclick=" AppObjectRealty.DeleteObjectPropertyRow('@prop.ObjectPropertyId', this) " class="delete-button">Удалить</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>@porpCount</td>
+                                    <td>@prop.Property.Name</td>
+                                    <td>@prop.Value @prop.Property.Unit.Name (@prop.Property.Unit.Description)</td>
+                                    <td>
+                                        <div class="btn-group  btn-group-solid">
+                                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" style="text-align: left">
+                                                <li><a onclick=" AppObjectRealty.ViewObjectProperty('@prop.ObjectPropertyId', this) " class="edit-button">Редактировать</a></li>
+                                                <li><a onclick=" AppObjectRealty.DeleteObjectPropertyRow('@prop.ObjectPropertyId', this) " class="delete-button">Удалить</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
 
                                 porpCount = porpCount + 1;
                             }
                         </tbody>
                     </table>
-
-
-
-                    @*<div class="props">
-                            @for (int i = 0; i < ObjectProperties.Count; i++)
-                            {
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Свойство</label>
-                                    <div class="col-md-7">
-                                        <select id="CountryId" name="CountryId" class="form-control input-large"></select>
-                                        <span class="help-block">&nbsp;</span>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group divProperty-@i">
-                                    <div class="row">
-                                        <div class="col-md-3 col-md-offset-1">
-                                            <label class="control-label">Свойство</label>
-                                            <input value="0" name="ObjectProperties[@i].ObjectPropertyId" type="hidden">
-                                            @Html.DropDownList("ObjectProperties[" + i + "].PropertyId", ObjectProperties.ElementAt(i).Key, new { @id = "", @class = "form-control input-large", @placeholder = "Выберите тип" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="control-label">Значени свойства</label>
-                                            <input name="ObjectProperties[@i].Value" type="text" value="@ObjectProperties.ElementAt(i).Value" class="form-control">
-                                        </div>
-                                        <div class="col-md-1" style="margin-top: 30px">
-                                            <button type="button" onclick=" DeleteProperty('@string.Format("divProperty-{0}", i)') ">X</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>*@
-
 
                     <!--Template-->
                     <div id="divProperty" style="display: none">
@@ -367,30 +325,30 @@
                             }
                             @foreach (Upload img in ((List<Upload>)ViewBag.ObjectImage).Where(w => w.DocumentTypeId == 3))
                             {
-                            <tr>
-                                <td style="text-align: center; vertical-align: middle">@porpCount</td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <a href="@img.Path" target="_newTab">
-                                        <img alt="" src="@img.Path" class="media-object" style="width: 54px; height: 54px">
-                                    </a>
-                                </td>
-                                <td style="text-align: left; vertical-align: middle">
-                                    <h4>@img.FileHeader</h4>
-                                    <span class="badge badge-default dtr-title">@string.Format("{0:dd.mm.yyyy}", img.CreateDate)</span>
-                                    <p style="font-size: 11px"> @img.FileDescription</p>
-                                </td>
-                                <td style="text-align: right; vertical-align: middle">
-                                    <div class="btn-group  btn-group-solid">
-                                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" style="text-align: left">
-                                            <li><a onclick=" AppObjectRealty.ViewObjectImage('@img.UploadId', this) " class="edit-button">Редактировать</a></li>
-                                            <li><a onclick=" AppObjectRealty.DeleteObjectImageRow('@img.UploadId', this) " class="delete-button">Удалить</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td style="text-align: center; vertical-align: middle">@porpCount</td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <a href="@img.Path" target="_newTab">
+                                            <img alt="" src="@img.Path" class="media-object" style="width: 54px; height: 54px">
+                                        </a>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: middle">
+                                        <h4>@img.FileHeader</h4>
+                                        <span class="badge badge-default dtr-title">@string.Format("{0:dd.mm.yyyy}", img.CreateDate)</span>
+                                        <p style="font-size: 11px"> @img.FileDescription</p>
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle">
+                                        <div class="btn-group  btn-group-solid">
+                                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" style="text-align: left">
+                                                <li><a onclick=" AppObjectRealty.ViewObjectImage('@img.UploadId', this) " class="edit-button">Редактировать</a></li>
+                                                <li><a onclick=" AppObjectRealty.DeleteObjectImageRow('@img.UploadId', this) " class="delete-button">Удалить</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
 
                                 porpCount = porpCount + 1;
                             }
@@ -418,27 +376,27 @@
                             }
                             @foreach (Upload img in ((List<Upload>)ViewBag.ObjectImage).Where(w => w.DocumentTypeId != 3))
                             {
-                            <tr>
-                                <td style="text-align: center; vertical-align: middle">@porpCount</td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <img alt="" src="~/content/assets/global/img/file.png" class="media-object" style="width: 54px; height: 54px">
-                                </td>
-                                <td style="text-align: left; vertical-align: middle">
-                                    <h4>@img.FileHeader</h4>
-                                    @img.FileDescription
-                                </td>
-                                <td style="text-align: right; vertical-align: middle">
-                                    <div class="btn-group  btn-group-solid">
-                                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" style="text-align: left">
-                                            <li><a onclick=" AppObjectRealty.ViewObjectDocument('@img.UploadId', this) " class="edit-button">Редактировать</a></li>
-                                            <li><a onclick=" AppObjectRealty.DeleteObjectDocumentRow('@img.UploadId', this) " class="delete-button">Удалить</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td style="text-align: center; vertical-align: middle">@porpCount</td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <img alt="" src="~/content/assets/global/img/file.png" class="media-object" style="width: 54px; height: 54px">
+                                    </td>
+                                    <td style="text-align: left; vertical-align: middle">
+                                        <h4>@img.FileHeader</h4>
+                                        @img.FileDescription
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle">
+                                        <div class="btn-group  btn-group-solid">
+                                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-ellipsis-horizontal"></i> Дейтсвие <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" style="text-align: left">
+                                                <li><a onclick=" AppObjectRealty.ViewObjectDocument('@img.UploadId', this) " class="edit-button">Редактировать</a></li>
+                                                <li><a onclick=" AppObjectRealty.DeleteObjectDocumentRow('@img.UploadId', this) " class="delete-button">Удалить</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
 
                                 porpCount = porpCount + 1;
                             }
@@ -463,7 +421,7 @@
                                     <div class="news-block-tags">
                                         <strong>@pledgers.Pledgers.ControllingShareholder</strong>
                                         <em>@pledgers.CreateDate</em>
-                                        <br/>
+                                        <br />
                                         <a href="" style="padding: 20px 10px 10px 0px">Добавить документ</a>
                                     </div>
                                     <table class="table">
@@ -497,8 +455,6 @@
                         </div>
                     }
                 </div>
-
-
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-0 col-md-9">
@@ -507,12 +463,8 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="final">
-                        <button type="submit" class="btn btn-success col-md-offset-1">Сохранить</button>
-                    </div>*@
             </div>
-                                }
-
+        }
 
         @Html.Partial("ObjectRealty/_addPropertyObjectRealty")
         @Html.Partial("ObjectRealty/_addImageObjectRealty")
@@ -542,23 +494,17 @@
         }
     </style>
 }
-
 @{
     Uri myUri = new Uri(Request.Url.ToString());
     string tab = HttpUtility.ParseQueryString(myUri.Query).Get("tab");
 }
 
-
 @section Scripts
 {
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>*@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQGepjcajymP5Wm0iY1cyJTJBVVx5_fZ8&libraries=geometry"></script>
-
     <script src="~/assets/plugins/AppObjectRealty.js?v=@DateTime.Now.Ticks"></script>
-
     <script>
         var myCenter = new google.maps.LatLng('@Model.lat', '@Model.lng');
-
         $(document).ready(function () {
             AppObjectRealty.init('@tab', '@Model.ObjectRealtyId');
             AppObjectRealty.initMap('@Model.zoom', $("#ObjectRealtyId").val());

@@ -8,7 +8,7 @@ using ObjectInformation.DAL.Model;
 
 namespace ObjectInformation.DAL
 {
-    public class ServiceMap
+    public class ServiceMap : IDisposable
     {
         private static OInformation db = new OInformation();
 
@@ -139,5 +139,9 @@ namespace ObjectInformation.DAL
             return polygons;
         }
 
+        public void Dispose()
+        {
+            db?.Dispose();
+        }
     }
 }

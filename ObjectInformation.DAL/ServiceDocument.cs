@@ -7,13 +7,18 @@ using ObjectInformation.DAL.Model;
 
 namespace ObjectInformation.DAL
 {
-    public class ServiceDocument
+    public class ServiceDocument : IDisposable
     {
         private static OInformation db = new OInformation();
 
         public static List<DocumentType> GetDocumentTypes()
         {
             return db.DocumentTypes.Where(w => w.DocumentTypeName != "Photo").ToList();
+        }
+
+        public void Dispose()
+        {
+            db?.Dispose();
         }
     }
 }

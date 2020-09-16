@@ -8,7 +8,7 @@ using ObjectInformation.DAL.Model;
 
 namespace ObjectInformation.DAL
 {
-    public class ServicePledgers
+    public class ServicePledgers : IDisposable
     {
         private static OInformation db = new OInformation();
 
@@ -113,5 +113,9 @@ namespace ObjectInformation.DAL
             }
         }
 
+        public void Dispose()
+        {
+            db?.Dispose();
+        }
     }
 }
