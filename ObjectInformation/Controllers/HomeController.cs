@@ -14,10 +14,12 @@ namespace ObjectInformation.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            var countryList = db.Countries.ToList();
+            var countryList = db.Countries.Where(country => 
+                country.Regions.Where(region => 
+                region.Cities.Where(city => 
+                city.Districts.Where(district => district.ObjectRealties.Any()).Any()).Any()).Any()).ToList();
             return View(countryList);
         }
 
@@ -30,7 +32,7 @@ namespace ObjectInformation.Controllers
         {
             return View(@"~\Views\Country\Country.cshtml");
         }
-        
+
         public ActionResult About()
         {
             City city = new City();
@@ -121,7 +123,7 @@ namespace ObjectInformation.Controllers
             {
                 db.SaveChanges();
             }
-            catch (Exception ex){}
+            catch (Exception ex) { }
             return PartialView(comment);
         }
     }

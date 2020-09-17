@@ -10,6 +10,7 @@ using PagedList;
 
 namespace ObjectInformation.Controllers
 {
+    [Authorize]
     public class PledgersController : BaseController
     {
         // GET: Pledgers

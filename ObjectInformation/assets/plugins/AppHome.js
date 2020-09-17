@@ -11,7 +11,7 @@ var AppObjectRealty = function () {
         console.log(index);
         if (poly) {
             polygons[index] = poly;
-        } 
+        }
         console.log(polygons);
         let polygon = new google.maps.Polygon({
             paths: poly.coords || [],
@@ -34,9 +34,9 @@ var AppObjectRealty = function () {
 
         polygon.addListener('click', function () {
             var selectPolygonId = polygons[index].PolygonId;
-          
-            $("#PolygonName").val( polygons[index].Name); 
-            $("#PolygonDescription").val( polygons[index].Description);
+
+            $("#PolygonName").val(polygons[index].Name);
+            $("#PolygonDescription").val(polygons[index].Description);
 
             $('#modifyObjectPolygon').modal('show')
         });
@@ -59,80 +59,78 @@ var AppObjectRealty = function () {
     }
 
     function InitMap(ObjectRealtyId) {
-        $.getJSON('/ObjectRealty/GetPolygons', { objectRealtyId: ObjectRealtyId }, function(json) {
-        }).done(function(data) {
+        $.getJSON('/ObjectRealty/GetPolygons', { objectRealtyId: ObjectRealtyId },
+            function (json) {
 
-            $('#modifyObjectPolygon').modal('hide')
-            polygonsData = data;
-            console.log("find Polugon");
-            //console.log(polygonsData);
+            }).done(function (data) {
+                $('#modifyObjectPolygon').modal('hide')
+                polygonsData = data;
+                console.log("find Polugon");
 
-           
-            let map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 5,
-                center: {lat:43.238062, lng:76.918468},
-                mapTypeId: 'terrain',
-                draggableCursor:'crosshair',
-                mapTypeControlOptions: {
-                    mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain','styled_map']
-                }
-            });
-
-          
-
-            $("#map").width($(".form-actions").width());
-
-            if (polygonsData)
-                polygonsData.forEach((poly, index) => {
-                    newPolygon(map, size - 1, poly);
-                    size++;
+                let map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 5,
+                    center: { lat: 43.236025, lng: 76.935369 },
+                    mapTypeId: 'terrain',
+                    draggableCursor: 'crosshair',
+                    mapTypeControlOptions: {
+                        mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', 'styled_map']
+                    },
+                    lang: 'ru'
                 });
 
-            //let polygon = newPolygon(map, size - 1);
+                $("#map").width($(".form-actions").width());
 
-            //map.addListener('click', function(e) {
-            //    const { coords } = polygons[size - 1];
-            //    coords.push({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-            //    polygon.setOptions({ paths: coords });
-            //});
+                if (polygonsData)
+                    polygonsData.forEach((poly, index) => {
+                        newPolygon(map, size - 1, poly);
+                        size++;
+                    });
 
-            //const next = document.querySelector('#next');
-            //next.addEventListener('click', function() {
-            //    polygon = newPolygon(map, ++size - 1);
-            //});
+                //let polygon = newPolygon(map, size - 1);
 
-            //saveMap.addEventListener('click', function () {
-            //    // Send data here
-            //    const data = JSON.stringify(polygons);
-            //    console.log(data);
-            //    console.log(JSON.parse(data));
+                //map.addListener('click', function(e) {
+                //    const { coords } = polygons[size - 1];
+                //    coords.push({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+                //    polygon.setOptions({ paths: coords });
+                //});
+
+                //const next = document.querySelector('#next');
+                //next.addEventListener('click', function() {
+                //    polygon = newPolygon(map, ++size - 1);
+                //});
+
+                //saveMap.addEventListener('click', function () {
+                //    // Send data here
+                //    const data = JSON.stringify(polygons);
+                //    console.log(data);
+                //    console.log(JSON.parse(data));
 
 
-            //    console.log("lat: "+map.getCenter().lat());
-            //    console.log("lng: "+map.getCenter().lng());
+                //    console.log("lat: "+map.getCenter().lat());
+                //    console.log("lng: "+map.getCenter().lng());
 
-            //    $.post('/ObjectRealty/SavePolygonData',{ json: data, objectRealtyId: $("#ObjectRealtyId").val(), lat:map.getCenter().lat(),  lng:map.getCenter().lng()}, function (data) {
-                    
-            //    })
+                //    $.post('/ObjectRealty/SavePolygonData',{ json: data, objectRealtyId: $("#ObjectRealtyId").val(), lat:map.getCenter().lat(),  lng:map.getCenter().lng()}, function (data) {
 
-            //    //$.getJSON('/ObjectRealty/SavePolygonData', { json: data, objectRealtyId: $("#ObjectRealtyId").val(), lat:map.getCenter().lat(),  lng:map.getCenter().lng()}, function(json) {
-            //    //}).done(function(dataCountryFrom) {});
-            //});
+                //    })
 
-            google.maps.event.addListenerOnce(map, 'idle', function() {
-                google.maps.event.trigger(map, 'dragend');
-                console.log("trigger dragend");
-           
-                this.set('dragging',false);
-                google.maps.event.trigger(this,'idle',{});
+                //    //$.getJSON('/ObjectRealty/SavePolygonData', { json: data, objectRealtyId: $("#ObjectRealtyId").val(), lat:map.getCenter().lat(),  lng:map.getCenter().lng()}, function(json) {
+                //    //}).done(function(dataCountryFrom) {});
+                //});
+
+                google.maps.event.addListenerOnce(map, 'idle', function () {
+                    google.maps.event.trigger(map, 'dragend');
+                    console.log("trigger dragend");
+
+                    this.set('dragging', false);
+                    google.maps.event.trigger(this, 'idle', {});
+                });
             });
-        });
 
-       
+
     }
 
     return {
-        initMap: function(lat, lng, ObjectRealtyId) {
+        initMap: function (lat, lng, ObjectRealtyId) {
             lat = lat;
             lng = lng;
             console.log("----");
@@ -141,12 +139,9 @@ var AppObjectRealty = function () {
             console.log(parseFloat(lat));
             console.log(parseFloat(lng));
             console.log("----");
-
-
             InitMap(ObjectRealtyId);
         },
         init: function (tab, ObjectRealtyId) {
-
             $('.nav-tabs a[href="#' + tab + '"]').tab('show');
 
             $.post('/AjaxApi/GetObjectTypes', function (data) {
@@ -229,15 +224,12 @@ var AppObjectRealty = function () {
                 }
             });
 
-
             $('#FileUploadDoc').fileupload({
-                
                 url: '/ObjectRealty/UploadDocument?objectId=' + ObjectRealtyId + "&uploadId=" + $("#DocUploadId").val(),
                 dataType: 'json',
                 //acceptFileTypes: /(.*?)\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/i,
                 add: function (e, data) {
                     jqXHRData = data;
-                    
                     //console.log('-*-');
                     //console.log(data.files[0].type);
                     //console.log(data.files);
@@ -288,100 +280,100 @@ var AppObjectRealty = function () {
 
         EventLocation: function (CountryId, RegionId, CityId, DistrictId, ObjectTypeId, CurrencyId) {
             $.when(
-               $.post('/AjaxApi/GetCountry', function (data) {
-                   $('#CountryId' + ' option').remove();
-                   $('#CountryId').append($("<option />").val("").text(""));
+                $.post('/AjaxApi/GetCountry', function (data) {
+                    $('#CountryId' + ' option').remove();
+                    $('#CountryId').append($("<option />").val("").text(""));
 
-                   for (var i = 0; i < data.length; i++) {
-                       $("#CountryId").append($("<option/>").val(data[i].id).text(data[i].name));
-                   }
-               })).then(function () {
-                   $('#CountryId').on('change', function () {
-                       $.post('/AjaxApi/GetRegionsInCountry', { countryId: $(this).val() }, function (data) {
-                           $('#RegionId' + ' option').remove();
-                           $('#RegionId').append($("<option />").val("").text(""));
+                    for (var i = 0; i < data.length; i++) {
+                        $("#CountryId").append($("<option/>").val(data[i].id).text(data[i].name));
+                    }
+                })).then(function () {
+                    $('#CountryId').on('change', function () {
+                        $.post('/AjaxApi/GetRegionsInCountry', { countryId: $(this).val() }, function (data) {
+                            $('#RegionId' + ' option').remove();
+                            $('#RegionId').append($("<option />").val("").text(""));
 
-                           for (var i = 0; i < data.length; i++) {
-                               $("#RegionId").append($("<option/>").val(data[i].id).text(data[i].name));
-                           }
-                       });
+                            for (var i = 0; i < data.length; i++) {
+                                $("#RegionId").append($("<option/>").val(data[i].id).text(data[i].name));
+                            }
+                        });
 
-                       $("#RegionId").removeAttr("disabled");
+                        $("#RegionId").removeAttr("disabled");
 
-                       $("#CityId").attr("disabled", "disabled");
-                       $("#DistrictId").attr("disabled", "disabled");
+                        $("#CityId").attr("disabled", "disabled");
+                        $("#DistrictId").attr("disabled", "disabled");
 
-                       $('#CityId' + ' option').remove();
-                       $('#DistrictId' + ' option').remove();
-                   });
+                        $('#CityId' + ' option').remove();
+                        $('#DistrictId' + ' option').remove();
+                    });
 
-                   $('#RegionId').on('change', function () {
-                       $.post('/AjaxApi/GetCityInRegion', { regionId: $(this).val() }, function (data) {
-                           $('#CityId' + ' option').remove();
-                           $('#CityId').append($("<option />").val("").text(""));
+                    $('#RegionId').on('change', function () {
+                        $.post('/AjaxApi/GetCityInRegion', { regionId: $(this).val() }, function (data) {
+                            $('#CityId' + ' option').remove();
+                            $('#CityId').append($("<option />").val("").text(""));
 
-                           for (var i = 0; i < data.length; i++) {
-                               $("#CityId").append($("<option/>").val(data[i].id).text(data[i].name));
-                           }
-                       });
+                            for (var i = 0; i < data.length; i++) {
+                                $("#CityId").append($("<option/>").val(data[i].id).text(data[i].name));
+                            }
+                        });
 
-                       $("#CityId").removeAttr("disabled");
+                        $("#CityId").removeAttr("disabled");
 
-                       $("#DistrictId").attr("disabled", "disabled");
-                       $('#DistrictId' + ' option').remove();
-                   });
+                        $("#DistrictId").attr("disabled", "disabled");
+                        $('#DistrictId' + ' option').remove();
+                    });
 
-                   $('#CityId').on('change', function () {
-                       $.post('/AjaxApi/GetDistrictIdInCity', { cityId: $(this).val() }, function (data) {
-                           $('#DistrictId' + ' option').remove();
-                           $('#DistrictId').append($("<option />").val("").text(""));
+                    $('#CityId').on('change', function () {
+                        $.post('/AjaxApi/GetDistrictIdInCity', { cityId: $(this).val() }, function (data) {
+                            $('#DistrictId' + ' option').remove();
+                            $('#DistrictId').append($("<option />").val("").text(""));
 
-                           for (var i = 0; i < data.length; i++) {
-                               $("#DistrictId").append($("<option/>").val(data[i].id).text(data[i].name));
-                           }
-                       });
+                            for (var i = 0; i < data.length; i++) {
+                                $("#DistrictId").append($("<option/>").val(data[i].id).text(data[i].name));
+                            }
+                        });
 
-                       $("#DistrictId").removeAttr("disabled");
-                   });
+                        $("#DistrictId").removeAttr("disabled");
+                    });
 
 
-                   if (CountryId != 0) {
-                       console.log(CountryId);
-                       $("#CountryId").removeAttr("disabled");
-                       $("#CountryId").val(CountryId);
-                       $("#CountryId").trigger("change");
+                    if (CountryId != 0) {
+                        console.log(CountryId);
+                        $("#CountryId").removeAttr("disabled");
+                        $("#CountryId").val(CountryId);
+                        $("#CountryId").trigger("change");
 
-                       setTimeout(function () {
-                           $("#RegionId").removeAttr("disabled");
-                           $("#RegionId").val(RegionId);
-                           $("#RegionId").trigger("change");
+                        setTimeout(function () {
+                            $("#RegionId").removeAttr("disabled");
+                            $("#RegionId").val(RegionId);
+                            $("#RegionId").trigger("change");
 
-                           setTimeout(function () {
-                               $("#CityId").removeAttr("disabled");
-                               $("#CityId").val(CityId);
-                               $("#CityId").trigger("change");
+                            setTimeout(function () {
+                                $("#CityId").removeAttr("disabled");
+                                $("#CityId").val(CityId);
+                                $("#CityId").trigger("change");
 
-                               setTimeout(function () {
-                                   $("#DistrictId").removeAttr("disabled");
-                                   $("#DistrictId").val(DistrictId);
-                                   $("#DistrictId").trigger("change");
+                                setTimeout(function () {
+                                    $("#DistrictId").removeAttr("disabled");
+                                    $("#DistrictId").val(DistrictId);
+                                    $("#DistrictId").trigger("change");
 
-                               }, 500);
+                                }, 500);
 
-                           }, 500);
+                            }, 500);
 
-                       }, 500);
+                        }, 500);
 
-                   }
+                    }
 
-                   if (ObjectTypeId != 0) {
-                       $("#ObjectTypeId").val(ObjectTypeId);
-                   }
+                    if (ObjectTypeId != 0) {
+                        $("#ObjectTypeId").val(ObjectTypeId);
+                    }
 
-                   if (CurrencyId != 0) {
-                       $("#CurrencyId").val(CurrencyId);
-                   }
-               });
+                    if (CurrencyId != 0) {
+                        $("#CurrencyId").val(CurrencyId);
+                    }
+                });
         },
 
 

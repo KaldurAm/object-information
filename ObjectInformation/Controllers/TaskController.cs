@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace ObjectInformation.Controllers
 {
+    [Authorize]
     public class TaskController : Controller
     {
         public async Task<ActionResult> Index(int objectRealtyId)
