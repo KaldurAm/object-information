@@ -6,7 +6,7 @@ namespace ObjectInformation.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("data source=KMERGAZIYEV\\SQLEXPRESS;initial catalog=ObjectInformation;MultipleActiveResultSets=True;User ID=kmerg; Password=!Kpo4322002;")
+            : base("data source=LAPTOP-RCGUPIJ6\\SQLEXPRESS;initial catalog=ObjectInformation;MultipleActiveResultSets=True;Trusted_Connection=True;")
         {
 
         }
