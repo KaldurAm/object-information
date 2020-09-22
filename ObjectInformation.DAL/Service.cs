@@ -269,25 +269,9 @@ namespace ObjectInformation.DAL
                 return false;
             }
         }
-
         #endregion
 
-
-
         #region ObjectRealty
-
-
-
-
-
-
-
-
-
-
-
-
-
         public static bool UploadPhoto(Upload upload)
         {
             try
@@ -434,12 +418,9 @@ namespace ObjectInformation.DAL
             }
           
         }
-
-        
         #endregion
 
         #region Country
-
         /// <summary>
         /// Метод получения всех стран отсортированных по <see cref="Country.CountryId"/>
         /// </summary>
@@ -467,11 +448,9 @@ namespace ObjectInformation.DAL
             }
             
         }
-
         #endregion
 
         #region Region
-
         /// <summary>
         /// Метод получения всех регионов страны по его id
         /// </summary>
@@ -494,7 +473,6 @@ namespace ObjectInformation.DAL
         {
             return db.Cities.Where(w => w.RegionId == regionId).ToList();
         }
-
         #endregion
 
         #region District

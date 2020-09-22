@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using ObjectInformation.DAL;
 using ObjectInformation.DAL.Model;
 using ObjectInformation.Models;
@@ -16,9 +13,9 @@ namespace ObjectInformation.Controllers
     {
         public ActionResult Index()
         {
-            var countryList = db.Countries.Where(country => 
-                country.Regions.Where(region => 
-                region.Cities.Where(city => 
+            var countryList = db.Countries.Where(country =>
+                country.Regions.Where(region =>
+                region.Cities.Where(city =>
                 city.Districts.Where(district => district.ObjectRealties.Any()).Any()).Any()).Any()).ToList();
             return View(countryList);
         }

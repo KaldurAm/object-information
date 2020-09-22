@@ -1,0 +1,67 @@
+﻿@model ObjectInformation.DAL.Model.Task
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="margin: 20px; justify-content: center;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ObjectRealtyId)
+        @Html.HiddenFor(model => model.StatusId)
+        @Html.HiddenFor(model => model.CreateDate)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TaskDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea id="TaskDescription" name="TaskDescription" class="form-control" />
+                @Html.ValidationMessageFor(model => model.TaskDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DaysCount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="number" value="@Model.DaysCount" id="DaysCount" name="DaysCount" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="form-control">@Model.Creator</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3" style="margin-right: 2px;">Исполнитель</label>
+            <div class="col-md-5">
+                <select class="form-control">
+                    @foreach (var user in (List<ObjectInformation.DAL.Model.ApplicationUser>)ViewBag.UserList)
+                    {
+                        <option value="@user.Id">@user.Email</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(".datepicker").datepicker({
+        format: 'dd.mm.yyyy',
+        startDate: '-3d',
+        autoclose: true,
+        todayHighlight: true
+    });
+
+    function AddUser(taskId, userId) {
+
+    }
+</script>

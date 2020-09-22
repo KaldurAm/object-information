@@ -84,7 +84,8 @@
                         </button>
                         <ul class="dropdown-menu" style="text-align: left">
                             <li><a href="/ObjectRealty/AddObject?objectRealtyId=@Model[i].ObjectRealtyId" class="edit-button">Редактировать</a></li>
-                            <li><a href="/Task/Index?objectRealtyId=@Model[i].ObjectRealtyId">Добавить задачу</a></li>
+                            @*<li><a href="/Task/CreateTask?objectId=@Model[i].ObjectRealtyId">Добавить задачу</a></li>*@
+                            <li><a onclick="AddTask(@Model[i].ObjectRealtyId)">Добавить задачу</a></li>
                             <li><a onclick="AppCity.DeleteRow('@Model[i].ObjectRealtyId', this) " class="delete-button">Удалить</a></li>
                         </ul>
                     </div>
@@ -147,30 +148,30 @@
                                         <li data-dtr-index="3" data-dt-row="4" data-dt-column="3" style="margin-bottom: 10px;">
                                             <span class="badge badge-default dtr-title">@String.Format("{0:dd.MM.yyyy}", task.Deadline)</span>
                                             <span class="dtr-data">@task.TaskDescription</span>
-                                            @{ 
-                                                string color = "blue";
-                                                string percent = "0%";
-                                                string warning = "";
+                                            @*@{
+                                                    string color = "blue";
+                                                    string percent = "0%";
+                                                    string warning = "";
 
-                                                var startDate = task.CreateDate;
-                                                var deadline = task.Deadline.GetValueOrDefault(DateTime.MaxValue);
-                                                var total = (deadline - startDate).TotalSeconds;
-                                                var percentage = (DateTime.Now - startDate).TotalSeconds * 100 / total;
-                                                percent = percentage.ToString() + "%";
-                                                if (task.StatusId == 4)
-                                                {
-                                                    color = "red";
-                                                    warning = "Осталось 5 дней";
+                                                    var startDate = task.CreateDate;
+                                                    var deadline = task.Deadline.GetValueOrDefault(DateTime.MaxValue);
+                                                    var total = (deadline - startDate).TotalSeconds;
+                                                    var percentage = (DateTime.Now - startDate).TotalSeconds * 100 / total;
+                                                    percent = percentage.ToString() + "%";
+                                                    if (task.StatusId == 4)
+                                                    {
+                                                        color = "red";
+                                                        warning = "Осталось 5 дней";
+                                                    }
+                                                    if (task.StatusId == 5)
+                                                    {
+                                                        percent = "100%";
+                                                        color = "green";
+                                                    }
                                                 }
-                                                if (task.StatusId == 5)
-                                                {
-                                                    percent = "100%";
-                                                    color = "green";
-                                                }
-                                            }
-                                            <div class="w3-light-grey" style="margin-top: 10px;">
-                                                <div class="w3-container w3-@color w3-center" style="width:@percent">@percent</div>
-                                            </div><span style="color: @color;">@warning</span>
+                                                <div class="w3-light-grey" style="margin-top: 10px;">
+                                                    <div class="w3-container w3-@color w3-center" style="width:@percent">@percent</div>
+                                                </div><span style="color: @color;">@warning</span>*@
                                         </li>
                                     }
                                 }
@@ -183,6 +184,19 @@
     </tbody>
 </table>
 
+@Html.Partial("~/Views/Shared//UniversalModalForm/Popup.cshtml")
+
 @section Scripts {
     <script src="~/Scripts/Helper.js"></script>
+
+    <script>
+        function AddTask(objectId) {
+            let url = '@Url.Action("CreateTask", "Task")';
+            $.get(url, { objectId: objectId }, (response) => {
+                $("#popup_body").empty();
+                $("#popup_body").html(response);
+                $("#popup_main").modal("show");
+            });
+        }
+    </script>
 }

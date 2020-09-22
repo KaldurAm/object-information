@@ -21,12 +21,18 @@ namespace ObjectInformation.DAL.Model
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Описание")]
         public string TaskDescription { get; set; }
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
+        [Display(Name = "Дней")]
+        public int DaysCount { get; set; }
+
+        [Display(Name = "Срок")]
         public DateTime? Deadline { get; set; }
 
+        [Display(Name = "Автор")]
         public string Creator { get; set; }
 
         public int ObjectRealtyId { get; set; }

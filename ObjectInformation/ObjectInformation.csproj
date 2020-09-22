@@ -217,6 +217,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountManageController.cs" />
     <Compile Include="Controllers\AjaxApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
@@ -4835,6 +4836,9 @@
     <Content Include="Views\Shared\Pledgers\_modifyPledgers.cshtml" />
     <Content Include="Views\Shared\ObjectRealty\_addObjectRealtyPledgers.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\AccountManage\Index.cshtml" />
+    <Content Include="Views\Task\CreateTask.cshtml" />
+    <Content Include="Views\Shared\UniversalModalForm\Popup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

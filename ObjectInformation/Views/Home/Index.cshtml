@@ -21,7 +21,7 @@
                         <div class="portlet-body">
                             <div id="Country_@country.CountryId" class="collapse in">
                                 <ul class="nav nav-pills nav-stacked">
-                                    @foreach (Region region in country.Regions.Where(a => a.Cities.Any()))
+                                    @foreach (Region region in country.Regions.Where(a => a.Cities.Where(x => x.Districts.Where(s => s.ObjectRealties.Any()).Any()).Any()))
                                     {
                                         <li style="cursor: pointer">
                                             <div class="portlet-title">
@@ -31,7 +31,7 @@
                                                 <div class="portlet-body">
                                                     <div id="Region_@region.RegionId" class="collapse in">
                                                         <ul class="nav nav-pills nav-stacked">
-                                                            @foreach (City city in region.Cities.Where(a => a.Districts.Any()))
+                                                            @foreach (City city in region.Cities)
                                                             {
                                                                 <li style="margin-left: 5px; cursor: pointer;">
                                                                     <div class="portlet-title;">
@@ -44,7 +44,7 @@
                                                                         <div class="portlet-body">
                                                                             <div id="City_@city.CityId" class="collapse in">
                                                                                 <ul class="nav nav-pills nav-stacked">
-                                                                                    @foreach (District district in city.Districts.Where(a => a.ObjectRealties.Any()))
+                                                                                    @foreach (District district in city.Districts)
                                                                                     {
                                                                                         <li style="margin-left: 10px; cursor: pointer">
                                                                                             <div class="portlet-title">
@@ -64,13 +64,13 @@
                                                                                                 </div>
                                                                                                 <div id="District_@district.DistrictId" class="collapse in">
                                                                                                     <ul class="nav nav-pills nav-stacked">
-                                                                                                        @foreach (ObjectType objectType in district.ObjectRealties.Where(w => w.ObjectTypeId != 0).Select(s => s.ObjectType).Distinct())
+                                                                                                        @foreach (ObjectType objectType in district.ObjectRealties.Where(w => w.ObjectTypeId != 0).Select(s => s.ObjectType))
                                                                                                         {
                                                                                                             <li style="margin-left: 15px" onclick=" ShowObjectInformation('') ">
                                                                                                                 @using (Ajax.BeginForm("ObjectRealtyListInfo", "Home", new { districtId = district.DistrictId, objectTypeId = objectType.ObjectTypeId },
                                                                                                                     new AjaxOptions() { UpdateTargetId = "ObjectScroller", LoadingElementId = "GoogleMapDiv", OnBegin = "AddHeight" }))
                                                                                                                 {
-                                                                                                                    <button type="button" class="btn btn-link caption-subject font-green-sharp" style="font-size: 13px; text-decoration: none">
+                                                                                                                    <button type="submit" class="btn btn-link caption-subject font-green-sharp" style="font-size: 13px; text-decoration: none">
                                                                                                                         <span>@objectType.ObjectTypeName</span>
                                                                                                                         <span class="badge badge-success">
                                                                                                                             @objectType.ObjectRealties.Count(c => c.DistrictId == district.DistrictId)
@@ -99,12 +99,12 @@
                                 </ul>
                             </div>
                         </div>
-
                     }
                 </div>
             </div>
         </div>
         <!-- END TODO SIDEBAR -->
+
         <!-- BEGIN TODO CONTENT -->
         <div class="col-md-9">
             <div class="todo-content" id="ObjectInfoBlock">
@@ -129,7 +129,6 @@
         </div>
     </div>
     <!-- END TODO CONTENT -->
-
 </div>
 @Html.Partial("ObjectRealty/_addPolygonObjectRealty")
 
