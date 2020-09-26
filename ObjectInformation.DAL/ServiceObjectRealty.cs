@@ -52,9 +52,10 @@ namespace ObjectInformation.DAL
         {
             try
             {
-                objectRealty.lat = "47.69497434";
-                objectRealty.lng = "68.57666016";
-                objectRealty.zoom = "5";
+               
+                objectRealty.lat = "43.238800";
+                objectRealty.lng = "76.945471";
+                objectRealty.zoom = "12";
                 objectRealty.CreateDate = DateTime.Now;
                 db.ObjectRealties.Add(objectRealty);
                 db.SaveChanges();
