@@ -66,6 +66,14 @@ namespace ObjectInformation.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Имя")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Фамилия")]
+        public string Surname { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -73,12 +81,12 @@ namespace ObjectInformation.Models
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Подтвердите пароль")]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
         public string ConfirmPassword { get; set; }
     }
 

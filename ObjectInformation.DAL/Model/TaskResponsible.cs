@@ -11,6 +11,12 @@ namespace ObjectInformation.DAL.Model
 
         public string ResponsibleUserId { get; set; }
 
+        //[ForeignKey(nameof(ResponsibleUserId))]
+        //public virtual ApplicationUser ResponsibleUser { get; set; }
+
         public int TaskId { get; set; }
+
+        //[ForeignKey(nameof(TaskId))]
+        //public virtual Model.Task Task { get; set; }
     }
 }

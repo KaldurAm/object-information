@@ -4835,10 +4835,10 @@
     <Content Include="Views\Pledgers\Index.cshtml" />
     <Content Include="Views\Shared\Pledgers\_modifyPledgers.cshtml" />
     <Content Include="Views\Shared\ObjectRealty\_addObjectRealtyPledgers.cshtml" />
-    <Content Include="Views\Task\Index.cshtml" />
     <Content Include="Views\AccountManage\Index.cshtml" />
     <Content Include="Views\Task\CreateTask.cshtml" />
     <Content Include="Views\Shared\UniversalModalForm\Popup.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4852,7 +4852,6 @@
     <Folder Include="fonts\" />
     <Folder Include="Views\AjaxApi\" />
     <Folder Include="Views\Menu\" />
-    <Folder Include="Views\TaskManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
