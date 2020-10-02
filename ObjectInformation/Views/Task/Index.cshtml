@@ -69,13 +69,17 @@
     </div>
 </div>
 
-<a id="CreateTask" class="btn btn-success createTask" data-object="@Model.FirstOrDefault().ObjectRealtyId">Создать задачу</a>
-
+@if (User.IsInRole("SuperAdmin"))
+{
+    <a id="CreateTask" class="btn btn-success createTask" data-object="@Model.FirstOrDefault().ObjectRealtyId">Создать задачу</a>
+}
+<br />
 @foreach (var task in Model)
 {
     <div class="panel panel-default taskInfo">
         <div class="panel-body">
             <a data-toggle="collapse" data-target="#employee-@task.Id" style="text-decoration: none;" class="taskName">@task.TaskDescription <span class="badge">@task.Responsibles.Count()</span></a>
+
             <div id="employee-@task.Id" class="collapse userList">
                 <p>Дата создания: @task.CreateDate.ToString("dd.MM.yyyy") г.</p>
                 <p>Дата завершения: @task.Deadline.Value.ToString("dd.MM.yyyy") г.</p>
@@ -97,7 +101,7 @@
 
 @Html.Partial("~/Views/Shared//UniversalModalForm/Popup.cshtml")
 
-@section Scripts{
+@section Scripts {
     <script>
         $(document).ready(() => {
             $('#CreateTask').click(() => {

@@ -18,8 +18,14 @@ namespace ObjectInformation.Controllers
     public class TaskController : BaseController, IDisposable
     {
         [HttpGet]
-        public async Task<ActionResult> Index(int objectId)
+        public async Task<ActionResult> Index(int objectId = 0)
         {
+            if (objectId == 0)
+            {
+                var myTasks = await db.Tasks.Where(x => x.Responsibles.Select(s => s.ResponsibleUserId).Contains(User.Identity.GetUserId())).ToListAsync();
+                return View(myTasks);
+            }
+
             var objectTasks = db.Tasks.Where(x => x.ObjectRealtyId == objectId)
                 .Include(i => i.TaskStatus)
                 .Include(i => i.Responsibles)
