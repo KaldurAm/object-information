@@ -1,15 +1,11 @@
 ﻿@model ObjectInformation.DAL.Model.Task
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
+<form id="taskForm">
     <div class="form-horizontal" style="margin: 20px; justify-content: center;">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.ObjectRealtyId)
         @Html.HiddenFor(model => model.StatusId)
-        @Html.HiddenFor(model => model.CreateDate)
 
         <div class="form-group">
             @Html.LabelFor(model => model.TaskDescription, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -27,41 +23,56 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <span class="form-control">@Model.Creator</span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-3" style="margin-right: 2px;">Исполнитель</label>
-            <div class="col-md-5">
-                <select class="form-control">
-                    @foreach (var user in (List<ObjectInformation.DAL.Model.ApplicationUser>)ViewBag.UserList)
-                    {
-                        <option value="@user.Id">@user.Email</option>
-                    }
-                </select>
-            </div>
+            <label class="control-label col-md-12" style="text-align:center;">Выберите исполнителей</label>
+            <select class="userSelect col-md-12 form-control" id="selectUsers">
+                @foreach (var user in (List<ObjectInformation.DAL.Model.ApplicationUser>)ViewBag.Users)
+                {
+                    <option value="@user.Id">@user.Surname @user.Name</option>
+                }
+            </select>
+            <div style="margin-left: 10px; font-size: 15px;" id="users"></div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <a class="btn btn-success pull-right" id="Save">Сохранить</a>
             </div>
         </div>
     </div>
-}
+</form>
 
 <script>
-    $(".datepicker").datepicker({
-        format: 'dd.mm.yyyy',
-        startDate: '-3d',
-        autoclose: true,
-        todayHighlight: true
-    });
+    let users = [];
 
-    function AddUser(taskId, userId) {
+    $(document).ready(function () {
+        $("#selectUsers").change(function () {
+            userChoose($(this).find(":selected"));
+        });
 
+        $("#Save").click(() => {
+            debugger
+            let form = {
+                TaskDescription: $("#TaskDescription").val(),
+                DaysCount: $("#DaysCount").val(),
+                ObjectRealtyId: $("#ObjectRealtyId").val()
+            };
+            let url = '@Url.Action("Create", "Task")';
+            $.post(url, { task: JSON.stringify(form), users: users });
+        });
+    })
+
+    function userChoose(user) {
+        let repeateUser = users.find(x => x == user[0].value);
+        if (repeateUser === undefined) {
+            users.push(user[0].value);
+            let span = `<div id="${user[0].value}"><span>${user[0].innerText}</span><span style="cursor:pointer" onclick="deleteUserFromList('${user[0].value}')"> x</span></div>`;
+            $("#users").append(span);
+        }
+    }
+
+    function deleteUserFromList(userId) {
+        let index = users.indexOf(userId);
+        users.splice(index, 1);
+        $("#" + userId).remove();
     }
 </script>

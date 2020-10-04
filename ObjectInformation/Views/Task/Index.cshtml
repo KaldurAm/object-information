@@ -1,42 +1,124 @@
-﻿@model ObjectInformation.DAL.Model.Task
+﻿@model IEnumerable<ObjectInformation.DAL.Model.Task>
 
 @{
     ViewBag.Title = "Задачи";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post))
-            {
-                <input type="hidden" value="@Model.ObjectRealtyId" name="ObjectRealtyId" />
-                <input type="hidden" value="@Model.Creator" name="Creator" />
+<style>
+    .statusHeader {
+        margin-bottom: 75px;
+    }
 
-                <h1>Задача</h1><hr />
-                <textarea name="TaskDescription" type="text" class="form-control" placeholder="Описание задачи"></textarea>
-                <br />
-                @*<a class="btn btn-primary" onclick="TaskManager.ViewObjectDocument(null, this);">Прикрепить файл</a>
-                <br /><br />*@
-                <label for="Deadline">Выберите срок завершения задачи</label>
-                <input name="Deadline" type="text" class="form-control datepicker" style="width: 200px; cursor:pointer;" autocomplete="off" />
-                <br /><br />
-                <button id="Add" class="btn btn-success" type="submit">Добавить</button>
-                <br /><hr>
-            }
+        .statusHeader p {
+            font-size: 20px;
+        }
+
+    .taskName {
+        font-size: 20px;
+    }
+
+    .userList {
+        margin-top: 15px;
+    }
+
+        .userList p {
+            font-size: 18px;
+        }
+
+    .createTask {
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="statusHeader">
+    <div class="col-sm-3">
+        <div class="card border-primary mb-3">
+            <div class="card-body text-primary">
+                <h3 class="card-title">Количество задач</h3>
+                <p class="card-text">@Model.Count()</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card border-success mb-3">
+            <div class="card-body text-success">
+                <h3 class="card-title">В работе</h3>
+                <p class="card-text">@Model.Where(x => x.StatusId == (int)ObjectInformation.DAL.Model.TaskStatusEnum.НаИсполнении).Count()</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card border-warning mb-3">
+            <div class="card-body text-warning">
+                <h3 class="card-title">Приближается срок</h3>
+                <p class="card-text">@Model.Where(x => x.StatusId == (int)ObjectInformation.DAL.Model.TaskStatusEnum.ОсталосьПятьДней).Count()</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card border-danger mb-3">
+            <div class="card-body text-danger">
+                <h3 class="card-title">Просрочено</h3>
+                <p class="card-text">@Model.Where(x => x.StatusId == (int)ObjectInformation.DAL.Model.TaskStatusEnum.Просрочено).Count()</p>
+            </div>
         </div>
     </div>
 </div>
 
-@section Scripts{
+@if (User.IsInRole("SuperAdmin"))
+{
+    <a id="CreateTask" class="btn btn-success createTask" data-object="@Model.FirstOrDefault().ObjectRealtyId">Создать задачу</a>
+}
+<br />
+@foreach (var task in Model)
+{
+    <div class="panel panel-default taskInfo">
+        <div class="panel-body">
+            <a data-toggle="collapse" data-target="#employee-@task.Id" style="text-decoration: none;" class="taskName">@task.TaskDescription <span class="badge">@task.Responsibles.Count()</span></a>
+
+            <div id="employee-@task.Id" class="collapse userList">
+                <p>Дата создания: @task.CreateDate.ToString("dd.MM.yyyy") г.</p>
+                <p>Дата завершения: @task.Deadline.Value.ToString("dd.MM.yyyy") г.</p>
+                <p>Дней на исполнение: @task.DaysCount</p>
+                @{
+                    var creator = ((List<ObjectInformation.DAL.Model.ApplicationUser>)ViewBag.Users).SingleOrDefault(s => s.Id == task.Creator);
+                }
+                <p>Автор: @creator.Surname @creator.Name</p>
+                <p>Статус: @task.TaskStatus.Name</p>
+                <hr />
+                @foreach (var user in ((List<ObjectInformation.DAL.Model.ApplicationUser>)ViewBag.Users).Where(x => task.Responsibles.Select(s => s.ResponsibleUserId).Contains(x.Id)))
+                {
+                    <p><span>Ответственный: @user.Surname @user.Name</span></p>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("~/Views/Shared//UniversalModalForm/Popup.cshtml")
+
+@section Scripts {
     <script>
         $(document).ready(() => {
-            $('.datepicker').datepicker({
-                format: 'dd.mm.yyyy',
-                startDate: new Date(),
-                weekStart: 1,
-                autoclose: true,
-                todayHighlight: true
+            $('#CreateTask').click(() => {
+                let objectId = $("#CreateTask").data("object");
+                let url = '@Url.Action("CreateTask", "Task")';
+                $.get(url, { objectId: objectId }, (response) => {
+                    $("#popup_body").empty();
+                    $("#popup_body").html(response);
+                    $("#popup_main").modal("show");
+                });
+            });
+
+            $(".close").click(() => {
+                $("#popup_body").empty();
             });
         });
+
+
     </script>
-}
+} 

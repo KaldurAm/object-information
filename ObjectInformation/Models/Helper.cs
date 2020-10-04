@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Newtonsoft.Json;
+using ObjectInformation.DAL.Model;
 
 namespace ObjectInformation.Models
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using ObjectInformation.DAL;
 using ObjectInformation.DAL.Model;
 using ObjectInformation.Models;
@@ -14,8 +15,27 @@ using System.Web.Mvc;
 namespace ObjectInformation.Controllers
 {
     [Authorize]
-    public class TaskController : Controller, IDisposable
+    public class TaskController : BaseController, IDisposable
     {
+        [HttpGet]
+        public async Task<ActionResult> Index(int objectId = 0)
+        {
+            if (objectId == 0)
+            {
+                var myTasks = await db.Tasks.Where(x => x.Responsibles.Select(s => s.ResponsibleUserId).Contains(User.Identity.GetUserId())).ToListAsync();
+                return View(myTasks);
+            }
+
+            var objectTasks = db.Tasks.Where(x => x.ObjectRealtyId == objectId)
+                .Include(i => i.TaskStatus)
+                .Include(i => i.Responsibles)
+                .OrderBy(o => o.Deadline)
+                .ToList();
+            var userManager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+            ViewBag.Users = await userManager.Users.ToListAsync();
+            return View(objectTasks);
+        }
+
         [HttpGet]
         public async Task<ActionResult> CreateTask(int objectId)
         {
@@ -30,8 +50,7 @@ namespace ObjectInformation.Controllers
                 Files = new List<TaskFile>()
             };
             var userManager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
-            var userList = await userManager.Users.ToListAsync();
-            ViewBag.UserList = userList;
+            ViewBag.Users = await userManager.Users.ToListAsync();
             return PartialView(newTask);
         }
 
@@ -54,15 +73,28 @@ namespace ObjectInformation.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(DAL.Model.Task newTask)
+        public async Task<ActionResult> Create(string task, string[] users)
         {
+            DAL.Model.Task newTask = JsonConvert.DeserializeObject<DAL.Model.Task>(task);
             using (var taskService = new TaskService())
             {
-                newTask.Creator = User.Identity.GetUserId();
-                await taskService.Create(newTask);
+                var userManager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+                newTask.Creator = userManager.FindByName(User.Identity.Name).Id;
+                await taskService.Create(newTask, users);
             }
 
-            return RedirectToAction("Index", "ObjectRealty");
+            return RedirectToAction("Index", "Task", new { objectId = newTask.ObjectRealtyId });
+        }
+
+        [HttpGet]
+        public async Task<string> SearchUsers(string key)
+        {
+            var userManager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+            var userList = await userManager.Users.Where(x => x.Email.Contains(key)).Select(s => new { 
+                id = s.Id,
+                text = s.UserName
+            }).ToListAsync();
+            return JsonConvert.SerializeObject(userList);
         }
     }
 }

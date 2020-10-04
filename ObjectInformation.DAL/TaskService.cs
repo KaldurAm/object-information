@@ -16,12 +16,21 @@ namespace ObjectInformation.DAL
             db = new OInformation();
         }
 
-        public async System.Threading.Tasks.Task Create(DAL.Model.Task newTask)
+        public async System.Threading.Tasks.Task Create(DAL.Model.Task newTask, string[] users)
         {
             try
             {
-                //newTask.CreateDate = DateTime.Now;
+                newTask.Deadline = newTask.CreateDate.AddDays(newTask.DaysCount);
                 db.Tasks.Add(newTask);
+                await db.SaveChangesAsync();
+
+                newTask.Responsibles = new List<TaskResponsible>();
+                foreach (var userId in users)
+                {
+                    newTask.Responsibles.Add(new TaskResponsible { TaskId = newTask.Id, ResponsibleUserId = userId });
+                }
+
+                db.TaskResponsibles.AddRange(newTask.Responsibles);
                 await db.SaveChangesAsync();
             }
             catch (Exception exception)
